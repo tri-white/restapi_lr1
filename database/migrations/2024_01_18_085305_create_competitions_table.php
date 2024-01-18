@@ -21,6 +21,8 @@ return new class extends Migration
             $table->timestamps();
             $table->index('event_date');
             //check for event_date after today.
+
+            $table->softDeletes();
         });
     }
 
