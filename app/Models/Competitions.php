@@ -21,4 +21,7 @@ class Competitions extends Model
     protected $casts = [
         'event_date'=>'datetime',
     ];
+    public function sportsmen():belongsToMany{
+        return $this->belongsToMany(Sportsmen::class, 'competitions_sportsmen');
+    }
 }
