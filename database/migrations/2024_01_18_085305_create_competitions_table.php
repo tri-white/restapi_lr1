@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('competitions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->dateTime('event_date');
+            $table->string('event_location');
             $table->integer('prize_pool')->unsigned()->nullable()->default(0);
             $table->enum('sports_type', array('100m sprint','3km run', 'spear throwing','football','tennis'));
             $table->timestamps();
