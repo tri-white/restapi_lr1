@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
+use App\Models\Sportsmen;
 class SportsmenSeeder extends Seeder
 {
     /**
@@ -12,6 +12,7 @@ class SportsmenSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Sportsmen::factory()->count(35)->create(); // create sportsmen
+        Sportsmen::factory()->count(35)->sponsored()->create(); // create sponsored sportsmen
     }
 }

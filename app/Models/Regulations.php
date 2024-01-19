@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Regulations extends Model
 {
     use HasFactory;
-    protected $table = "";
+    protected $table = "regulations";
     protected $fillalbe = [
         'name','description','minimal_requirements','gender',
     ];

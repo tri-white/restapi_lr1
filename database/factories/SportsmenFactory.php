@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models;
+use App\Models\Sportsmen;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Sportsmen>
  */
