@@ -10,7 +10,7 @@ class competitions_sportsmen extends Model
     use HasFactory;
     protected $table = "competitions_sportsmen";
     protected $fillalbe = [
-        ''
+        'sportsman_id','competition_id',
     ];
     protected $hidden = [
         'updated_at','created_at',

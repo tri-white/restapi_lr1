@@ -9,10 +9,14 @@ class sportsmen_regulations extends Model
 {
     use HasFactory;
     protected $table = "sportsmen_regulations";
-    protected $fillalbe = [];
+    protected $fillalbe = [
+        'regulation_id','sportsman_id','completion_date',
+    ];
     protected $hidden = [
         'created_at','updated_at'
     ];
-    protected $guarded = [];
+    protected $guarded = [
+        'id','created_at','updated_at'
+    ];
     protected $casts = [];
 }
