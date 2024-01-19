@@ -9,8 +9,19 @@ class Regulations extends Model
 {
     use HasFactory;
     protected $table = "";
-    protected $fillalbe = [];
-    protected $hidden = [];
-    protected $guarded = [];
-    protected $casts = [];
+    protected $fillalbe = [
+        'name','description','minimal_requirements','gender',
+    ];
+    protected $hidden = [
+        'updated_at','created_at',
+    ];
+    protected $guarded = [
+        'id','created_at','updated_at',
+    ];
+    protected $casts = [
+        
+    ];
+    public function sportsmen():hasMany{ // belongsToMany/hasMany?
+        return $this->hasMany(sportsmen_regulations::class);
+    }
 }

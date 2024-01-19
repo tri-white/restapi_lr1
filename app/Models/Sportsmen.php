@@ -24,7 +24,7 @@ class Sportsmen extends Model
     public function competitions():belongsToMany{
         return $this->belongsToMany(Competitions::class,'competitions_sportsmen');
     }
-    public function regulations():belongsToMany{ // or maybe hasMany is fine too, because table sportsmen_regulations is not usual pivot table, it also has another fields, but I can get them either way I think, so relationship here can be both hasMany and belongsToMany?
-        return $this->belongsToMany(Regulations::class,'sportsmen_regulations');
+    public function regulations():hasMany{ // hasMany or belongsToMany?
+        return $this->hasMany(sportsmen_regulations::class);
     }
 }
