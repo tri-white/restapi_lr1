@@ -3,12 +3,14 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Competitions>
  */
 class CompetitionsFactory extends Factory
 {
+    protected $model = Competitions::class;
+
     /**
      * Define the model's default state.
      *

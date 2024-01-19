@@ -18,5 +18,13 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        //create trashed competitions with ->trashed()->create()
+        //create ->sponsored() sportsmen
+            //'completion_date'=>fake()->dateTimeBetween('-5 years', 'now'),
+        //hasAttached (for many-to-many between sportsman and regulations) 
+        //has() for hasMany
+        //for() for belongsTo
+        // ->state() to change fields
     }
 }

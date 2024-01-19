@@ -3,12 +3,14 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Regulations>
  */
 class RegulationsFactory extends Factory
 {
+    protected $model = Regulations::class;
+
     /**
      * Define the model's default state.
      *

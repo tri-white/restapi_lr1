@@ -3,12 +3,14 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Sportsmen>
  */
 class SportsmenFactory extends Factory
 {
+    protected $model = Sportsmen::class;
+
     /**
      * Define the model's default state.
      *
@@ -26,10 +28,19 @@ class SportsmenFactory extends Factory
                 'spear throwing',
                 'athletics',
             ]),
-            'sponsor'=>fake()->randomElement([
-                fake()->company(),
-                null
-            ]),
+            'sponsor'=>null,
         ];
+    }
+
+    /**
+     * Indicate that the sportsman is sponsored
+     */
+    public function sponsored(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'sponsor' => fake()->company(),
+            ];
+        });
     }
 }

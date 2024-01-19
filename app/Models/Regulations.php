@@ -21,7 +21,7 @@ class Regulations extends Model
     protected $casts = [
         
     ];
-    public function sportsmen():hasMany{ // belongsToMany/hasMany?
-        return $this->hasMany(sportsmen_regulations::class);
+    public function sportsmen():belongsToMany{ // belongsToMany/hasMany?
+        return $this->hasMany(Sportsmen::class,'sportsmen_regulations');
     }
 }
