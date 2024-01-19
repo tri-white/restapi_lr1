@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Competitions extends Model
 {
     use HasFactory, SoftDeletes;
@@ -21,7 +22,7 @@ class Competitions extends Model
     protected $casts = [
         'event_date'=>'datetime',
     ];
-    public function sportsmen():belongsToMany{
+    public function sportsmen():BelongsToMany{
         return $this->belongsToMany(Sportsmen::class, 'competitions_sportsmen');
     }
 }

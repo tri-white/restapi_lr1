@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Sportsmen extends Model
 {
     use HasFactory;
@@ -21,10 +21,10 @@ class Sportsmen extends Model
     protected $casts = [
 
     ];
-    public function competitions():belongsToMany{
+    public function competitions():BelongsToMany{
         return $this->belongsToMany(Competitions::class,'competitions_sportsmen');
     }
-    public function regulations():belongsToMany{ // hasMany or belongsToMany?
+    public function regulations():BelongsToMany{ // hasMany or belongsToMany?
         return $this->hasMany(Regulations::class,'sportsmen_regulations');
     }
 }
