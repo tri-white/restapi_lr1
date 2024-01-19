@@ -18,11 +18,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        //hasAttached (for many-to-many between sportsman and regulations) 
-                    //'completion_date'=>fake()->dateTimeBetween('-5 years', 'now'),
-        //has() for hasMany
-        //for() for belongsTo
-        // ->state() to change fields
+
 
         $this->call([
             CompetitionsSeeder::class,

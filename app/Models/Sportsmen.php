@@ -25,6 +25,6 @@ class Sportsmen extends Model
         return $this->belongsToMany(Competitions::class,'competitions_sportsmen');
     }
     public function regulations():BelongsToMany{ // hasMany or belongsToMany?
-        return $this->hasMany(Regulations::class,'sportsmen_regulations');
+        return $this->belongsToMany(Regulations::class,'sportsmen_regulations');
     }
 }
