@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\CompetitionsRequest;
+use App\Http\Requests\SportsmenRegulationsRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class CompetitionsCrudController
+ * Class SportsmenRegulationsCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class CompetitionsCrudController extends CrudController
+class SportsmenRegulationsCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,9 @@ class CompetitionsCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Competitions::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/competitions');
-        CRUD::setEntityNameStrings('competitions', 'competitions');
+        CRUD::setModel(\App\Models\SportsmenRegulations::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/sportsmen-regulations');
+        CRUD::setEntityNameStrings('sportsmen regulations', 'sportsmen regulations');
     }
 
     /**
@@ -39,26 +39,9 @@ class CompetitionsCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id')->type('my_custom_column');
+        CRUD::setFromDb(); // set columns from db columns.
 
-        CRUD::column('name');
-        CRUD::column('prize_pool')->type('number');
-        CRUD::column('event_location');
-        CRUD::column('event_date');
         /**
-         * type: image,
-         * ->wrapper([
-         *  href = function($crud,$,$entry){
-         * return backpack_url('/cat'.$entry.'/show')
-         * }
-         * ])
-         * 
-         * 'class' => function ($crud, $column, $entry){
-         *  returnr match($status){
-         *  'DONE'=>'badge bg-success'
-         * 'WORK' =>'badge bg-secondary'
-         * }
-         * }
          * Columns can be defined using the fluent syntax:
          * - CRUD::column('price')->type('number');
          */
@@ -72,12 +55,9 @@ class CompetitionsCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(CompetitionsRequest::class);
-        CRUD::field('name');
-        CRUD::field('prize_pool');
-        CRUD::field('event_date');
-        CRUD::field('event_location');
-        CRUD::field('gender');
+        CRUD::setValidation(SportsmenRegulationsRequest::class);
+        CRUD::setFromDb(); // set fields from db columns.
+
         /**
          * Fields can be defined using the fluent syntax:
          * - CRUD::field('price')->type('number');
@@ -92,11 +72,6 @@ class CompetitionsCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        CRUD::setValidation(CompetitionsRequest::class);
-        CRUD::field('name');
-        CRUD::field('prize_pool');
-        CRUD::field('event_date');
-        CRUD::field('event_location');
-        CRUD::field('gender');
+        $this->setupCreateOperation();
     }
 }

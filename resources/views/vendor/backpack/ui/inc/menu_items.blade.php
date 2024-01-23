@@ -4,3 +4,6 @@
 <x-backpack::menu-item title="Sportsmens" icon="la la-question" :link="backpack_url('sportsmen')" />
 <x-backpack::menu-item title="Competitions" icon="la la-question" :link="backpack_url('competitions')" />
 <x-backpack::menu-item title="Regulations" icon="la la-question" :link="backpack_url('regulations')" />
+<x-backpack::menu-item title="Users" icon="la la-question" :link="backpack_url('user')" />
+<x-backpack::menu-item title="Competitions sportsmens" icon="la la-question" :link="backpack_url('competitions-sportsmen')" />
+<x-backpack::menu-item title="Sportsmen regulations" icon="la la-question" :link="backpack_url('sportsmen-regulations')" />
