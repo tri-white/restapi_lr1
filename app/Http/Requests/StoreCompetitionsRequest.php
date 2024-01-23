@@ -11,7 +11,7 @@ class StoreCompetitionsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreCompetitionsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'=>'string|required|max:255|min:0',
+            'event_date'=>'required|date|after:today',
+            'event_location'=>'required|string|min:0|max:255',
+            'prize_pool'=>'required|integer|min:0',
+            'sports_type'=>'required|'.Rule::in(['100m sprint','3km run', 'spear throwing','football','tennis'])
         ];
     }
 }
