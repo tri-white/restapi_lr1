@@ -49,13 +49,21 @@ class CompetitionsTest extends TestCase
     }
 
     public function test_create(): void{
-         $response = $this->postJson('/api/competitions', ['name' => 'Sally']);
+         $response = $this->postJson('/api/competitions',
+          [
+            'name'=>'Grand Prix',
+            'event_date'=>now()->addDay(),
+            'event_location'=>'Ukraine,Khmelnitsky',
+            'prize_pool'=>5000,
+            'sports_type'=>'100m sprint',
+          ]
+        );
  
-        // $response
-        //     ->assertStatus(201)
-        //     ->assertJson([
-        //         'created' => true,
-        //     ]);
+         $response
+             ->assertStatus(201)
+             ->assertJson([
+                 'name'=>'Grand Prix',
+             ]);
 
             // try to post user with invalid fields
             //try to create record with fine fields
