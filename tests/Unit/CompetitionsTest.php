@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
-
+use Tests\TestCase;
+use App\Models\Competitions;
 class CompetitionsTest extends TestCase
 {
     /**
@@ -13,4 +13,6 @@ class CompetitionsTest extends TestCase
     {
         $this->assertTrue(true);
     }
+  
+
 }
