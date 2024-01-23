@@ -65,19 +65,34 @@ class CompetitionsTest extends TestCase
                  'name'=>'Grand Prix',
              ]);
 
-            // try to post user with invalid fields
-            //try to create record with fine fields
+
+             $response = $this->postJson('/api/competitions',
+             [
+               'name'=>'Grand Prix',
+               'event_date'=>now()->addDay(),
+               'event_location'=>'Ukraine,Khmelnitsky',
+               'sports_type'=>'200m sprint',
+             ]
+           );
+    
+            $response
+                ->assertStatus(422);
+
             
     }
 
     public function test_update(): void{
-        // $response = $this->postJson('/api/user', ['name' => 'Sally']);
- 
-        // $response
-        //     ->assertStatus(201)
-        //     ->assertJson([
-        //         'created' => true,
-        //     ]);
+        $competition = Competitions::factory()->create();
+        $response = $this->putJson('/api/competitions/'.$competition->id,
+             [
+               'name'=>'Grand Prix',
+             ]
+           );
+           
+    
+            $response
+                ->assertStatus(200);
+
 
             // try to edit unexisting record/
             // try to edit with invalid fields
