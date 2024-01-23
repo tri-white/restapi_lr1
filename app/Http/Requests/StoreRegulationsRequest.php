@@ -22,7 +22,10 @@ class StoreRegulationsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'=>'required|string|min:0|max:255',
+            'description'=>'nullable|string|min:0|max:1024',
+            'minimal_requirements'=>'required|string|min:0|max:255',
+            'gender'=>'required|'.Rule::in(['male','female','unisex']),
         ];
     }
 }

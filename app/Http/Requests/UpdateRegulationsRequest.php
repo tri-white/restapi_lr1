@@ -22,7 +22,10 @@ class UpdateRegulationsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'=>'string|min:0|max:255',
+            'description'=>'string|min:0|max:1024',
+            'minimal_requirements'=>'string|min:0|max:255',
+            'gender'=>Rule::in(['male','female','unisex']),
         ];
     }
 }
