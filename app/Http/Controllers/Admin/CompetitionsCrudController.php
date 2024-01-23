@@ -46,6 +46,7 @@ class CompetitionsCrudController extends CrudController
         CRUD::column('event_location');
         CRUD::column('event_date');
         /**
+         * prefix, suffix
          * type: image,
          * ->wrapper([
          *  href = function($crud,$,$entry){
@@ -63,7 +64,17 @@ class CompetitionsCrudController extends CrudController
          * - CRUD::column('price')->type('number');
          */
     }
+    public function showDetailsRow($id){
+        return "HI";
+    }
 
+    protected function setupShowOperation(){
+        
+        CRUD::column('name'); // without tab - goes on top
+        CRUD::column('prize_pool')->type('number')->tab('1');
+        CRUD::column('event_location')->tab('1');
+        CRUD::column('event_date')->tab('2');
+    }
     /**
      * Define what happens when the Create operation is loaded.
      * 
