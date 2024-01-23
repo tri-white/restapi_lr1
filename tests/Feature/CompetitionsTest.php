@@ -116,18 +116,18 @@ class CompetitionsTest extends TestCase
                ->assertStatus(404);
     }
     public function test_delete(): void{
-        // $response = $this->postJson('/api/user', ['name' => 'Sally']);
- 
-        // $response
-        //     ->assertStatus(201)
-        //     ->assertJson([
-        //         'created' => true,
-        //     ]);
+        $competition=Competitions::factory()->create();
+           $response =  $this->deleteJson('api/competitions/'.$competition->id);
+         $response
+             ->assertStatus(200)
+             ->assertJson([
+                 'message'=>'deleted',
+             ]);
+             $this->assertSoftDeleted('competitions');
 
             // try to delete unexsiting record
-
-            // try to delete existing record and check softDelete
-
-            // try to forceDelete record and check that it doesnt exist in database
+            $response =  $this->deleteJson('api/competitions/0');
+          $response
+              ->assertStatus(404);
     }
 }
