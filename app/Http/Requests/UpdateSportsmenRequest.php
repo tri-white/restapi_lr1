@@ -22,7 +22,11 @@ class UpdateSportsmenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'=>'string|min:0|max:255',
+            'email'=>'email|string|min:0|max:255|unique:users,email,'.$this->id,
+            'gender'=>Rule::in(['male','female']),
+            'category'=>Rule::in(['tennis','marathon','spear throwing','athletics']),
+            'sponsor'=>'nullable|string|min:0|max:255',
         ];
     }
 }

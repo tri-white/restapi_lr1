@@ -22,7 +22,11 @@ class StoreSportsmenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'=>'required|string|min:0|max:255',
+            'email'=>'required|email|string|min:0|max:255|unique:users, email',
+            'gender'=>'required|'.Rule::in(['male','female']),
+            'category'=>'required|'.Rule::in(['tennis','marathon','spear throwing','athletics']),
+            'sponsor'=>'nullable|string|min:0|max:255',
         ];
     }
 }
