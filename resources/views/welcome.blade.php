@@ -136,5 +136,11 @@
                 </div>
             </div>
         </div>
+        <script>
+            Echo.private('user.banned.1')
+                .listen('UserBanned',(e)=>{
+                    console.log(e.user);
+                });
+            </script>
     </body>
 </html>

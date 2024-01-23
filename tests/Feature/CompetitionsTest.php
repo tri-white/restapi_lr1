@@ -11,7 +11,6 @@ use App\Models\Competitions;
 class CompetitionsTest extends TestCase
 {
     use RefreshDatabase;
-    // test crud, and records in database
 
     /**
      * A basic feature test example.
@@ -38,7 +37,7 @@ class CompetitionsTest extends TestCase
         $competition =  Competitions::factory()->create();
         $response = $this->get('/api/competitions/'.$competition->id);
     
-        $response->assertStatus(200);// test also responseJson
+        $response->assertStatus(200);
 
         //test unexisting competitions
         $response = $this->get('/api/competitions/0');
