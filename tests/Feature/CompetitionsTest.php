@@ -93,11 +93,27 @@ class CompetitionsTest extends TestCase
             $response
                 ->assertStatus(200);
 
+                $response = $this->putJson('/api/competitions/0',
+                     [
+                       'name'=>'Grand Prix',
+                     ]
+                   );
+                   
+            
+                    $response
+                        ->assertStatus(404);
 
-            // try to edit unexisting record/
-            // try to edit with invalid fields
             //  try to edit guarded fields
-            // try to edit normal
+            
+            $response = $this->putJson('/api/competitions/0',
+            [
+              'updated_at'=>'Grand Prix',
+            ]
+          );
+          
+   
+           $response
+               ->assertStatus(404);
     }
     public function test_delete(): void{
         // $response = $this->postJson('/api/user', ['name' => 'Sally']);
