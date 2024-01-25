@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Regulations;
 use App\Http\Requests\StoreRegulationsRequest;
 use App\Http\Requests\UpdateRegulationsRequest;
+use Illuminate\Http\Request;
 
 class RegulationsController extends Controller
 {

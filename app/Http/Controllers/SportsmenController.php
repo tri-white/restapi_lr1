@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Sportsmen;
 use App\Http\Requests\StoreSportsmenRequest;
 use App\Http\Requests\UpdateSportsmenRequest;
+use Illuminate\Http\Request;
 
 class SportsmenController extends Controller
 {

@@ -7,13 +7,15 @@ use App\Http\Requests\StoreCompetitionsRequest;
 use App\Http\Requests\UpdateCompetitionsRequest;
 use App\Filters\CompetitionsFilter;
 use App\Http\Resources\CompetitionResource;
-use App\Http\Resources\CompetitionsCollection;
+use App\Http\Resources\CompetitionCollection;
+use Illuminate\Http\Request;
+
 class CompetitionsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
 
         $filter = new CompetitionsFilter();
@@ -23,11 +25,11 @@ class CompetitionsController extends Controller
 
         $competitions = Competitions::where($queryItems);
 
-        if($includeInvoices){
+        if($includeSportsmen){
             $competitions=$competitions->with('sportsmen');
         }
 
-        return new CustomerCollection($competitions->paginate()->appends($request->query()));
+        return new CompetitionCollection($competitions->paginate()->appends($request->query()));
     }
 
     /**
@@ -45,7 +47,7 @@ class CompetitionsController extends Controller
     {
         $competition = Competitions::create($request->validated());
 
-            return $competition;
+            return new CompetitionResource($competition);
 
     }
 
@@ -55,7 +57,7 @@ class CompetitionsController extends Controller
     public function show($id)
     {
         $competition= Competitions::findOrFail($id);
-        return $competition;
+        return new CompetitionResource($competition);
         
     }
 
@@ -75,7 +77,7 @@ class CompetitionsController extends Controller
     {
         $competition = Competitions::findOrFail($id);
         $competition->update($request->validated());
-            return $competition;
+            return new CompetitionResource($competition);
     }
 
     /**

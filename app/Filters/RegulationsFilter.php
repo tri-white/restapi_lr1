@@ -1,10 +1,10 @@
 <?php 
 
-namespace App\Filters\v1;
+namespace App\Filters;
 use App\Filters\ApiFilter;
 use Illuminate\Http\Request;
 
-class CustomersFilter extends ApiFilter{
+class RegulationsFilter extends ApiFilter{
     protected $safeParms = [
         'name' => ['eq'],
         'description'=> ['eq'],
