@@ -18,12 +18,9 @@ class SportsmenResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'address'=>$this->address,
-            'state'=>$this->state,
-            'type'=>$this->type,
-            'postalCode'=>$this->postal_code,
-            'city'=>$this->city,
-            'invoices'=>InvoiceResource::collection($this->whenLoaded('invoices')),
+            'gender'=>$this->gender,
+            'category'=>$this->category,
+            'sponsor'=>$this->sponsor,
         ];
     }
 }

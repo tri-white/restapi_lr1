@@ -17,13 +17,9 @@ class RegulationResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email,
-            'address'=>$this->address,
-            'state'=>$this->state,
-            'type'=>$this->type,
-            'postalCode'=>$this->postal_code,
-            'city'=>$this->city,
-            'invoices'=>InvoiceResource::collection($this->whenLoaded('invoices')),
+            'description' => $this->description,
+            'minimalRequirements'=>$this->minimal_requirements,
+            'gender'=>$this->gender,
         ];
     }
 }
