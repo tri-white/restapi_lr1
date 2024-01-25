@@ -105,7 +105,7 @@ class CompetitionsTest extends TestCase
 
             //  try to edit guarded fields
             
-            $response = $this->putJson('/api/competitions/0',
+            $response = $this->putJson('/api/competitions/1',
             [
               'updated_at'=>'Grand Prix',
             ]
