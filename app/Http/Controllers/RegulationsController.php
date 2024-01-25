@@ -6,6 +6,9 @@ use App\Models\Regulations;
 use App\Http\Requests\StoreRegulationsRequest;
 use App\Http\Requests\UpdateRegulationsRequest;
 use Illuminate\Http\Request;
+use App\Filters\RegulationsFilter;
+use App\Http\Resources\RegulationResource;
+use App\Http\Resources\RegulationCollection;
 
 class RegulationsController extends Controller
 {
@@ -14,9 +17,14 @@ class RegulationsController extends Controller
      */
     public function index()
     {
-        $regulations = Regulations::all();
+        $filter = new RegulationsFilter();
+        $queryItems = $filter->transform($request); // ['column', 'operator', 'value']
 
-        return $regulations;
+
+        $regulations = Regulations::where($queryItems);
+
+
+        return new RegulationCollection($regulations->paginate()->appends($request->query()));
     }
 
     /**
@@ -35,7 +43,7 @@ class RegulationsController extends Controller
     {
         $regulation = Regulations::create($request->validated());
 
-        return $regulation;
+        return new RegulationResource($regulation);
     }
 
     /**
@@ -44,7 +52,7 @@ class RegulationsController extends Controller
     public function show($id)
     {
         $regulation= Regulations::findOrFail($id);
-        return $regulation;
+        return new RegulationResource($regulation);
     }
 
     /**
@@ -63,7 +71,7 @@ class RegulationsController extends Controller
     {
         $regulation = Regulations::findOrFail($id);
         $regulation->update($request->validated());
-            return $regulation;
+            return new RegulationResource($regulation);
     }
 
     /**

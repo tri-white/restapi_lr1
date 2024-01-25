@@ -6,6 +6,9 @@ use App\Models\Sportsmen;
 use App\Http\Requests\StoreSportsmenRequest;
 use App\Http\Requests\UpdateSportsmenRequest;
 use Illuminate\Http\Request;
+use App\Filters\SportsmenFilter;
+use App\Http\Resources\SportsmenResource;
+use App\Http\Resources\SportsmenCollection;
 
 class SportsmenController extends Controller
 {
@@ -14,9 +17,14 @@ class SportsmenController extends Controller
      */
     public function index()
     {
-        $sportsmen = Sportsmen::all();
+        $filter = new RegulationsFilter();
+        $queryItems = $filter->transform($request); // ['column', 'operator', 'value']
 
-        return $sportsmen;
+
+        $sportsmen = Sportsmen::where($queryItems);
+
+
+        return new SportsmenCollection($sportsmen->paginate()->appends($request->query()));
     }
 
     /**
@@ -34,7 +42,7 @@ class SportsmenController extends Controller
     {
         $sportsmen = Sportsmen::create($request->validated());
 
-        return $sportsmen;
+        return new SportsmenResource($sportsmen);
     }
 
     /**
@@ -43,7 +51,8 @@ class SportsmenController extends Controller
     public function show($id)
     {
         $sportsmen= Sportsmen::findOrFail($id);
-        return $sportsmen;
+        return new SportsmenResource($sportsmen);
+
     }
 
     /**
@@ -62,7 +71,8 @@ class SportsmenController extends Controller
     {
         $sportsmen = Sportsmen::findOrFail($id);
         $sportsmen->update($request->validated());
-            return $sportsmen;
+        return new SportsmenResource($sportsmen);
+
     }
 
     /**
