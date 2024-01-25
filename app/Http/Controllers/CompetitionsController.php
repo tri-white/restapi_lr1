@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Competitions;
 use App\Http\Requests\StoreCompetitionsRequest;
 use App\Http\Requests\UpdateCompetitionsRequest;
-
+use App\Filters\CompetitionsFilter;
+use App\Http\Resources\CompetitionResource;
+use App\Http\Resources\CompetitionsCollection;
 class CompetitionsController extends Controller
 {
     /**
@@ -13,9 +15,19 @@ class CompetitionsController extends Controller
      */
     public function index()
     {
-        $competitions = Competitions::all();
 
-        return $competitions;
+        $filter = new CompetitionsFilter();
+        $queryItems = $filter->transform($request); // ['column', 'operator', 'value']
+
+        $includeSportsmen = $request->query('includeSportsmen');
+
+        $competitions = Competitions::where($queryItems);
+
+        if($includeInvoices){
+            $competitions=$competitions->with('sportsmen');
+        }
+
+        return new CustomerCollection($competitions->paginate()->appends($request->query()));
     }
 
     /**
