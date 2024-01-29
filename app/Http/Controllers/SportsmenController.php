@@ -15,7 +15,7 @@ class SportsmenController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $filter = new RegulationsFilter();
         $queryItems = $filter->transform($request); // ['column', 'operator', 'value']
@@ -25,6 +25,8 @@ class SportsmenController extends Controller
 
 
         return new SportsmenCollection($sportsmen->paginate()->appends($request->query()));
+
+        
     }
 
     /**
@@ -48,28 +50,28 @@ class SportsmenController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Sportsmen $sportsmens)
     {
-        $sportsmen= Sportsmen::findOrFail($id);
-        return new SportsmenResource($sportsmen);
+        // $sportsmen= Sportsmen::findOrFail($sportsmen);
+        return new SportsmenResource($sportsmens);
 
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Sportsmen $sportsmen)
     {
-        $sportsmen = Sportsmen::findOrFail($id);
+        // $sportsmen = Sportsmen::findOrFail($sportsmen);
         return view('sportsmens.edit',['sportsmen'=>$sportsmen]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSportsmenRequest $request, $id)
+    public function update(UpdateSportsmenRequest $request, Sportsmen $sportsmen)
     {
-        $sportsmen = Sportsmen::findOrFail($id);
+        // $sportsmen = Sportsmen::findOrFail($sportsmen);
         $sportsmen->update($request->validated());
         return new SportsmenResource($sportsmen);
 
@@ -78,9 +80,9 @@ class SportsmenController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Sportsmen $sportsmen)
     {
-        $sportsmen = Sportsmen::findOrFail($id);
+        // $sportsmen = Sportsmen::findOrFail($sportsmen);
         $sportsmen->delete();
         return response()->json(['message'=>'deleted'],200);
     }

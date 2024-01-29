@@ -28,7 +28,6 @@ class CompetitionsController extends Controller
         if($includeSportsmen){
             $competitions=$competitions->with('sportsmen');
         }
-
         return new CompetitionCollection($competitions->paginate()->appends($request->query()));
     }
 
@@ -54,9 +53,8 @@ class CompetitionsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Competitions $competition)
     {
-        $competition= Competitions::findOrFail($id);
         return new CompetitionResource($competition);
         
     }
@@ -64,18 +62,18 @@ class CompetitionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Competitions $competition)
     {
-        $competition = Competitions::findOrFail($id);
+        // $competition = Competitions::findOrFail($competition);
         return view('competitions.edit',['competition'=>$competition]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCompetitionsRequest $request, $id)
+    public function update(UpdateCompetitionsRequest $request, Competitions $competition)
     {
-        $competition = Competitions::findOrFail($id);
+        // $competition = Competitions::findOrFail($competition);
         $competition->update($request->validated());
             return new CompetitionResource($competition);
     }
@@ -83,9 +81,9 @@ class CompetitionsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Competitions $competition)
     {
-        $competition = Competitions::findOrFail($id);
+        // $competition = Competitions::findOrFail($competition);
         $competition->delete();
         return response()->json(['message'=>'deleted'],200);
     }

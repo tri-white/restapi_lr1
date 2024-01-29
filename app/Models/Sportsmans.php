@@ -6,11 +6,11 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-class Sportsmen extends Model
+class Sportsmans extends Model
 {
     use CrudTrait;
     use HasFactory;
-    protected $table = "sportsmen";
+    protected $table = "sportsmans";
     protected $fillalbe = [
         'name','email','gender','category','sponsor'
     ];
@@ -24,9 +24,9 @@ class Sportsmen extends Model
 
     ];
     public function competitions():BelongsToMany{
-        return $this->belongsToMany(Competitions::class,'competitions_sportsmen');
+        return $this->belongsToMany(Competitions::class,'competitions_sportsmans');
     }
     public function regulations():BelongsToMany{ // hasMany or belongsToMany?
-        return $this->belongsToMany(Regulations::class,'sportsmen_regulations');
+        return $this->belongsToMany(Regulations::class,'sportsmans_regulations');
     }
 }

@@ -3,13 +3,13 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Sportsmen;
+use App\Models\Sportsmans;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Sportsmen>
  */
 class SportsmenFactory extends Factory
 {
-    protected $model = Sportsmen::class;
+    protected $model = Sportsmans::class;
 
     /**
      * Define the model's default state.

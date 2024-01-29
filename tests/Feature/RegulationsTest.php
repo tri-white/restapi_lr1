@@ -25,12 +25,14 @@ class RegulationsTest extends TestCase
         $regulation = Regulations::factory()->create()->first();
         $response = $this->get('/api/regulations');
         $response->assertStatus(200)
-            ->assertJsonCount(1)
-            ->assertJson(fn (AssertableJson $json) =>
-            $json->first(fn (AssertableJson $json)=>
-                $json->where('id',$regulation->id)->etc()
-            )
-        );
+              ->assertJson([
+                'data'=>[
+                  [
+                    'id'=>$regulation->id,
+                  ]
+                ]
+              ]
+          );
     }
 
     public function test_show(): void{
@@ -60,7 +62,10 @@ class RegulationsTest extends TestCase
          $response
              ->assertStatus(201)
              ->assertJson([
-                 'name'=>'100m run',
+              'data'=>[
+                'name'=>'100m run',
+
+              ]
              ]);
 
 

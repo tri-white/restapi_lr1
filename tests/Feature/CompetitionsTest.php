@@ -25,12 +25,15 @@ class CompetitionsTest extends TestCase
         //add record and test if its shown in response, if response gives 1 row.
         $competition = Competitions::factory()->create()->first();
         $response = $this->get('/api/competitions');
+        // Test if the created competition is in the response
         $response->assertStatus(200)
-            ->assertJsonCount(1)
-            ->assertJson(fn (AssertableJson $json) =>
-            $json->first(fn (AssertableJson $json)=>
-                $json->where('id',$competition->id)->etc()
-            )
+          ->assertJson([
+              'data'=>[
+                [
+                  'id'=>$competition->id,
+                ]
+              ]
+            ]
         );
     }
 
@@ -62,7 +65,10 @@ class CompetitionsTest extends TestCase
          $response
              ->assertStatus(201)
              ->assertJson([
-                 'name'=>'Grand Prix',
+              'data'=>[
+                'name'=>'Grand Prix',
+
+              ]
              ]);
 
 

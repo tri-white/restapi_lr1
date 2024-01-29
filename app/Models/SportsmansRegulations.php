@@ -6,7 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SportsmenRegulations extends Model
+class SportsmansRegulations extends Model
 {
     use CrudTrait;
     use HasFactory;
@@ -17,7 +17,7 @@ class SportsmenRegulations extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'sportsmen_regulations';
+    protected $table = 'sportsmans_regulations';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];

@@ -15,7 +15,7 @@ class RegulationsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $filter = new RegulationsFilter();
         $queryItems = $filter->transform($request); // ['column', 'operator', 'value']
@@ -49,27 +49,27 @@ class RegulationsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Regulations $regulation)
     {
-        $regulation= Regulations::findOrFail($id);
+        // $regulation= Regulations::findOrFail($regulation);
         return new RegulationResource($regulation);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Regulations $regulation)
     {
-        $regulation = Regulations::findOrFail($id);
+        // $regulation = Regulations::findOrFail($regulation);
         return view('regulations.edit',['regulation'=>$regulation]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRegulationsRequest $request, $id)
+    public function update(UpdateRegulationsRequest $request, Regulations $regulation)
     {
-        $regulation = Regulations::findOrFail($id);
+        // $regulation = Regulations::findOrFail($regulation);
         $regulation->update($request->validated());
             return new RegulationResource($regulation);
     }
@@ -77,9 +77,9 @@ class RegulationsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Regulations $regulation)
     {
-        $regulation = Regulations::findOrFail($id);
+        // $regulation = Regulations::findOrFail($regulation);
         $regulation->delete();
         return response()->json(['message'=>'deleted'],200);
     }

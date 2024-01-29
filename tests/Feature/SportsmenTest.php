@@ -26,11 +26,13 @@ class SportsmenTest extends TestCase
         $sportsmen = Sportsmen::factory()->create()->first();
         $response = $this->get('/api/sportsmen');
         $response->assertStatus(200)
-            ->assertJsonCount(1)
-            ->assertJson(fn (AssertableJson $json) =>
-            $json->first(fn (AssertableJson $json)=>
-                $json->where('id',$sportsmen->id)->etc()
-            )
+            ->assertJson([
+              'data'=>[
+                [
+                  'id'=>$sportsmen->id,
+                ]
+              ]
+            ]
         );
     }
 
@@ -61,7 +63,10 @@ class SportsmenTest extends TestCase
          $response
              ->assertStatus(201)
              ->assertJson([
-                 'name'=>'Grand Prix',
+              'data'=>[
+                'name'=>'Grand Prix',
+
+              ]
              ]);
 
 
@@ -112,7 +117,7 @@ class SportsmenTest extends TestCase
            $response
                ->assertStatus(404);
     }
-    public function test_delete(): void{
+    public function test_delete(): void {
         $sportsmen=Sportsmen::factory()->create();
            $response =  $this->deleteJson('api/sportsmen/'.$sportsmen->id);
          $response

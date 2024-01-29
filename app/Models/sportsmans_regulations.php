@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class sportsmen_regulations extends Model
+class sportsmans_regulations extends Model
 {
     use HasFactory;
-    protected $table = "sportsmen_regulations";
+    protected $table = "sportsmans_regulations";
     protected $fillalbe = [
-        'regulation_id','sportsman_id','completion_date',
+        'regulations_id','sportsmans_id','completion_date',
     ];
     protected $hidden = [
         'created_at','updated_at'
