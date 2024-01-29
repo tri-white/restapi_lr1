@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\SportsmenResource;
+use App\Http\Resources\SportsmansResource;
 class CompetitionResource extends JsonResource
 {
     /**
@@ -21,7 +21,7 @@ class CompetitionResource extends JsonResource
             'eventLocation'=>$this->event_location,
             'prizePool'=>$this->prize_pool,
             'sportsType'=>$this->sports_type,
-            'competitors'=>SportsmenResource::collection($this->whenLoaded('sportsmen')),
+            'competitors'=>SportsmansResource::collection($this->whenLoaded('sportsmans')),
         ];
     }
 }

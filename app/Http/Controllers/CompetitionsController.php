@@ -21,12 +21,12 @@ class CompetitionsController extends Controller
         $filter = new CompetitionsFilter();
         $queryItems = $filter->transform($request); // ['column', 'operator', 'value']
 
-        $includeSportsmen = $request->query('includeSportsmen');
+        $includeSportsmans = $request->query('includeSportsmans');
 
         $competitions = Competitions::where($queryItems);
 
-        if($includeSportsmen){
-            $competitions=$competitions->with('sportsmen');
+        if($includeSportsmans){
+            $competitions=$competitions->with('sportsmans');
         }
         return new CompetitionCollection($competitions->paginate()->appends($request->query()));
     }

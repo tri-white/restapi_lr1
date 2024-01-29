@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sportsmans;
-use App\Http\Requests\StoreSportsmenRequest;
-use App\Http\Requests\UpdateSportsmenRequest;
+use App\Http\Requests\StoreSportsmansRequest;
+use App\Http\Requests\UpdateSportsmansRequest;
 use Illuminate\Http\Request;
-use App\Filters\SportsmanFilter;
+use App\Filters\SportsmansFilter;
 use App\Http\Resources\SportsmansResource;
 use App\Http\Resources\SportsmansCollection;
 
@@ -17,7 +17,7 @@ class SportsmansController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = new SportsmanFilter();
+        $filter = new SportsmansFilter();
         $queryItems = $filter->transform($request); // ['column', 'operator', 'value']
 
 
@@ -40,7 +40,7 @@ class SportsmansController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSportsmenRequest $request)
+    public function store(StoreSportsmansRequest $request)
     {
         $sportsman = Sportsmans::create($request->validated());
 
@@ -69,11 +69,11 @@ class SportsmansController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSportsmenRequest $request, Sportsmans $sportsman)
+    public function update(UpdateSportsmansRequest $request, Sportsmans $sportsman)
     {
         // $sportsmans = Sportsmans::findOrFail($sportsmans);
         $sportsman->update($request->validated());
-        return new SportsmansResource($sportsmas);
+        return new SportsmansResource($sportsman);
 
     }
 

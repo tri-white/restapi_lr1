@@ -5,11 +5,11 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Models\Sportsmen;
+use App\Models\Sportsmans;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 
-class SportsmenTest extends TestCase
+class SportsmansTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -18,18 +18,18 @@ class SportsmenTest extends TestCase
      */
     public function test_index(){
         // test if route works
-        $response = $this->get('/api/sportsmen');
+        $response = $this->get('/api/sportsmans');
  
         $response->assertStatus(200);
 
         //add record and test if its shown in response, if response gives 1 row.
-        $sportsmen = Sportsmen::factory()->create()->first();
-        $response = $this->get('/api/sportsmen');
+        $sportsmans = Sportsmans::factory()->create()->first();
+        $response = $this->get('/api/sportsmans');
         $response->assertStatus(200)
             ->assertJson([
               'data'=>[
                 [
-                  'id'=>$sportsmen->id,
+                  'id'=>$sportsmans->id,
                 ]
               ]
             ]
@@ -37,13 +37,13 @@ class SportsmenTest extends TestCase
     }
 
     public function test_show(): void{
-        $sportsmen =  Sportsmen::factory()->create();
-        $response = $this->get('/api/sportsmen/'.$sportsmen->id);
+        $sportsmans =  Sportsmans::factory()->create();
+        $response = $this->get('/api/sportsmans/'.$sportsmans->id);
     
         $response->assertStatus(200);// test also responseJson
 
-        //test unexisting sportsmen
-        $response = $this->get('/api/sportsmen/0');
+        //test unexisting sportsmans
+        $response = $this->get('/api/sportsmans/0');
  
         $response->assertStatus(404);
 
@@ -51,7 +51,7 @@ class SportsmenTest extends TestCase
     }
 
     public function test_create(): void{
-         $response = $this->postJson('/api/sportsmen',
+         $response = $this->postJson('/api/sportsmans',
           [
             'name'=>'Grand Prix',
             'gender'=>'male',
@@ -70,7 +70,7 @@ class SportsmenTest extends TestCase
              ]);
 
 
-             $response = $this->postJson('/api/sportsmen',
+             $response = $this->postJson('/api/sportsmans',
              [
                'name'=>'Grand Prix',
                'email'=>'hi',
@@ -84,8 +84,8 @@ class SportsmenTest extends TestCase
     }
 
     public function test_update(): void{
-        $sportsmen = Sportsmen::factory()->create();
-        $response = $this->putJson('/api/sportsmen/'.$sportsmen->id,
+        $sportsmans = Sportsmans::factory()->create();
+        $response = $this->putJson('/api/sportsmans/'.$sportsmans->id,
              [
                'name'=>'Grand',
              ]
@@ -95,7 +95,7 @@ class SportsmenTest extends TestCase
             $response
                 ->assertStatus(200);
 
-                $response = $this->putJson('/api/sportsmen/0',
+                $response = $this->putJson('/api/sportsmans/0',
                      [
                        'name'=>'Grand',
                      ]
@@ -107,7 +107,7 @@ class SportsmenTest extends TestCase
 
             //  try to edit guarded fields
             
-            $response = $this->putJson('/api/sportsmen/1',
+            $response = $this->putJson('/api/sportsmans/1',
             [
               'updated_at'=>'Grand Prix',
             ]
@@ -118,17 +118,17 @@ class SportsmenTest extends TestCase
                ->assertStatus(404);
     }
     public function test_delete(): void {
-        $sportsmen=Sportsmen::factory()->create();
-           $response =  $this->deleteJson('api/sportsmen/'.$sportsmen->id);
+        $sportsmans=Sportsmans::factory()->create();
+           $response =  $this->deleteJson('api/sportsmans/'.$sportsmans->id);
          $response
              ->assertStatus(200)
              ->assertJson([
                  'message'=>'deleted',
              ]);
-             $this->assertDatabaseEmpty('sportsmen');
+             $this->assertDatabaseEmpty('sportsmans');
 
             // try to delete unexsiting record
-            $response =  $this->deleteJson('api/sportsmen/0');
+            $response =  $this->deleteJson('api/sportsmans/0');
           $response
               ->assertStatus(404);
     }

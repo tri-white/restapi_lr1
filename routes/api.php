@@ -20,6 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['namespace'=>'App\Http\Controllers'], function(){
     Route::resource('competitions', CompetitionsController::class);
-    Route::resource('sportsmen', SportsmenController::class);
+    Route::resource('sportsmans', SportsmansController::class);
     Route::resource('regulations', RegulationsController::class);
 });
