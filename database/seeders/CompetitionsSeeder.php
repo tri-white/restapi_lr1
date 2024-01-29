@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Competitions;
-use App\Models\Sportsmen;
+use App\Models\Sportsmans;
 class CompetitionsSeeder extends Seeder
 {
     /**
@@ -18,19 +18,19 @@ class CompetitionsSeeder extends Seeder
         Competitions::factory()
             ->count(20)
             ->trashed()
-            ->has(Sportsmen::factory()->count(10))
+            ->has(Sportsmans::factory()->count(10))
             ->create(); // creating trashed competitions with competitors(sportsmen)
         Competitions::factory()
             ->count(20)
-            ->has(Sportsmen::factory()->count(15))
+            ->has(Sportsmans::factory()->count(15))
             ->create(); // creating competitions with competitors(sportsmen)
 
-        $sportsmen = Sportsmen::factory()->count(200)->create();
+        $sportsmen = Sportsmans::factory()->count(200)->create();
 
         $competitions = Competitions::factory()->count(20)->create();
 
         $competitions->each(function ($competition) use ($sportsmen) {
-            $competition->sportsmen()->attach($sportsmen->random());
+            $competition->sportsmans()->attach($sportsmen->random());
         });
     }
 }

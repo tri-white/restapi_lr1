@@ -4,7 +4,7 @@ namespace App\Filters;
 use App\Filters\ApiFilter;
 use Illuminate\Http\Request;
 
-class SportsmenFilter extends ApiFilter{
+class SportsmansFilter extends ApiFilter{
     protected $safeParms = [
         'name' => ['eq'],
         'email'=> ['eq'],

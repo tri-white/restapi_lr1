@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Sportsmans;
 use App\Models\Regulations;
-class SportsmenSeeder extends Seeder
+class SportsmansSeeder extends Seeder
 {
     /**
      * Run the database seeds.

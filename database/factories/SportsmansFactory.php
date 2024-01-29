@@ -7,7 +7,7 @@ use App\Models\Sportsmans;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Sportsmen>
  */
-class SportsmenFactory extends Factory
+class SportsmansFactory extends Factory
 {
     protected $model = Sportsmans::class;
 
