@@ -24,7 +24,7 @@ class UpdateCompetitionsRequest extends FormRequest
     {
         return [
             'name'=>'string|max:255|min:0',
-            'event_date'=>'date|after:today',
+            'event_date'=>'date',
             'event_location'=>'string|min:0|max:255',
             'prize_pool'=>'integer|min:0',
             'sports_type'=>Rule::in(['100m sprint','3km run', 'spear throwing','football','tennis'])

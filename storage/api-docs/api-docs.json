@@ -16,6 +16,406 @@
         }
     },
     "paths": {
-        "http://127.0.0.1:8000/api": {}
+        "http://127.0.0.1:8000/api": {},
+        "/api/competitions": {
+            "get": {
+                "tags": [
+                    "Competitions"
+                ],
+                "summary": "Get list of competitions",
+                "description": "Returns list of competitions",
+                "operationId": "getCompetitionsList",
+                "parameters": [
+                    {
+                        "name": "name[eq]",
+                        "in": "query",
+                        "description": "Name of the competition (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "event_date[eq]",
+                        "in": "query",
+                        "description": "Date of the competition event (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "datetime",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "event_date[gt]",
+                        "in": "query",
+                        "description": "Date of the competition event (greater than the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "datetime",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "event_date[lt]",
+                        "in": "query",
+                        "description": "Date of the competition event (less than the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "datetime",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "event_location[eq]",
+                        "in": "query",
+                        "description": "Location of the competition (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "prize_pool[eq]",
+                        "in": "query",
+                        "description": "Prize pool amount (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "prize_pool[gt]",
+                        "in": "query",
+                        "description": "Prize pool amount (greater than the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "prize_pool[lt]",
+                        "in": "query",
+                        "description": "Prize pool amount (less than the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sports_type[eq]",
+                        "in": "query",
+                        "description": "Type of sports for the competition (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "100m sprint",
+                                "3km run",
+                                "spear throwing",
+                                "football",
+                                "tennis"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "includeSportsmans",
+                        "in": "query",
+                        "description": "Include sportsmans with competitions",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Competitions"
+                ],
+                "summary": "Adds a new competition",
+                "operationId": "84a8a43a88ab9388e4760a81cafa059c",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "eventDate": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "eventLocation": {
+                                        "type": "string"
+                                    },
+                                    "prizePool": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "sportsType": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "EventX",
+                                    "event_date": "1995-09-26T21:52:51.000000Z",
+                                    "event_location": "81767 Heidenreich Ridge\\nSouth Lisette, KY 12766",
+                                    "prize_pool": 694138,
+                                    "sports_type": "3km run"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "A competition object.",
+                                        "value": {
+                                            "data": {
+                                                "id": 122,
+                                                "name": "EventX",
+                                                "eventDate": "1995-09-26T21:52:51.000000Z",
+                                                "eventLocation": "81767 Heidenreich Ridge\\\\nSouth Lisette, KY 12766",
+                                                "prizePool": 694138,
+                                                "sportsType": "3km run"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable request (validation failed)"
+                    }
+                }
+            }
+        },
+        "/api/competitions/{id}": {
+            "get": {
+                "tags": [
+                    "Competitions"
+                ],
+                "summary": "Get competition by id",
+                "description": "Returns one competition record by id if it is found",
+                "operationId": "getCompetition",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of competition",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "A competition object.",
+                                        "value": {
+                                            "data": {
+                                                "id": 122,
+                                                "name": "EventX",
+                                                "eventDate": "1995-09-26T21:52:51.000000Z",
+                                                "eventLocation": "81767 Heidenreich Ridge\\\\nSouth Lisette, KY 12766",
+                                                "prizePool": 694138,
+                                                "sportsType": "3km run"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Competitions"
+                ],
+                "summary": "Updates a competition",
+                "operationId": "d7853e87bfa78cfe919a9b781a9ed1f6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of competition to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "eventDate": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "eventLocation": {
+                                        "type": "string"
+                                    },
+                                    "prizePool": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "sportsType": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "EventX",
+                                    "event_date": "1995-09-26T21:52:51.000000Z",
+                                    "event_location": "81767 Heidenreich Ridge\\nSouth Lisette, KY 12766",
+                                    "prize_pool": 694138,
+                                    "sports_type": "3km run"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "A competition object.",
+                                        "value": {
+                                            "data": {
+                                                "id": 122,
+                                                "name": "EventX",
+                                                "eventDate": "1995-09-26T21:52:51.000000Z",
+                                                "eventLocation": "81767 Heidenreich Ridge\\\\nSouth Lisette, KY 12766",
+                                                "prizePool": 694138,
+                                                "sportsType": "3km run"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Competition not found by id"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Competitions"
+                ],
+                "summary": "Deletes a competition",
+                "operationId": "9ba3932a87eb7d4f7391c562a3b712ed",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of competition to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Competition successfully deleted"
+                    },
+                    "404": {
+                        "description": "Competition not found by id"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Competitions": {
+                "title": "Schema of competition record",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "event_date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "event_location": {
+                        "type": "string"
+                    },
+                    "prize_pool": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "sports_type": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "name": "id",
+                    "event_date": "1995-09-26T21:52:51.000000Z",
+                    "event_location": "81767 Heidenreich Ridge\\nSouth Lisette, KY 12766",
+                    "prize_pool": 694138,
+                    "sports_type": "3km run"
+                }
+            }
+        }
     }
 }

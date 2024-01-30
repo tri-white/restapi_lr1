@@ -9,7 +9,7 @@ class CompetitionsFilter extends ApiFilter{
         'name' => ['eq'],
         'event_date'=> ['eq','gt','lt'],
         'event_location'=>['eq'],
-        'prize_pool'=>['eq'],
+        'prize_pool'=>['eq','gt','lt'],
         'sports_type'=>['eq'],
     ];
 
