@@ -24,7 +24,7 @@ class UpdateSportsmansRequest extends FormRequest
     {
         return [
             'name'=>'string|min:0|max:255',
-            'email'=>'nullable|email|string|min:0|max:255|unique:users,email,'.$this->id,
+            'email'=>'nullable|email|string|min:0|max:255|unique:sportsmans,email,'.$this->sportsman->id,
             'gender'=>Rule::in(['male','female']),
             'category'=>Rule::in(['tennis','marathon','spear throwing','athletics']),
             'sponsor'=>'nullable|string|min:0|max:255',

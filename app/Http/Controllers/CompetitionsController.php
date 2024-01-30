@@ -134,31 +134,7 @@ class CompetitionsController extends Controller
  *     @OA\RequestBody(
  *         @OA\MediaType(
  *             mediaType="application/json",
- *             @OA\Schema(
-                *   @OA\Property(
-                *       property="name",
-                *       type="string"
-                *   ),
-                *   @OA\Property(
-                *       property="eventDate",
-                *       type="string",
-                *       format="date-time"
-                *   ),
-                *   @OA\Property(
-                *       property="eventLocation",
-                *       type="string"
-                *   ),
-                *   @OA\Property(
-                *       property="prizePool",
-                *       type="integer",
-                *       format="int64"
-                *   ),
-                *   @OA\Property(
-                *       property="sportsType",
-                *       type="string"
-                *   ),
- *                 example={"name":"EventX","event_date":"1995-09-26T21:52:51.000000Z","event_location":"81767 Heidenreich Ridge\nSouth Lisette, KY 12766","prize_pool":694138,"sports_type":"3km run"}
- *             )
+ *             @OA\Schema(ref="#/components/schemas/Competitions")
  *         )
  *     ),
  *     @OA\Response(
@@ -166,7 +142,7 @@ class CompetitionsController extends Controller
  *         description="OK",
  *         @OA\JsonContent(
  *                 @OA\Schema(ref="#/components/schemas/Competitions"),
- *             @OA\Examples(example="result", value={
+ *             @OA\Examples(example="competition", value={
  * "data": {
  *   "id": 122,
  *   "name": "EventX",
@@ -215,7 +191,7 @@ class CompetitionsController extends Controller
  *          description="Successful operation",
   *         @OA\JsonContent(
  *                 @OA\Schema(ref="#/components/schemas/Competitions"),
- *             @OA\Examples(example="result", value={
+ *             @OA\Examples(example="competition", value={
                     * "data": {
                     *   "id": 122,
                     *   "name": "EventX",
@@ -268,31 +244,7 @@ class CompetitionsController extends Controller
  *     @OA\RequestBody(
  *         @OA\MediaType(
  *             mediaType="application/json",
- *             @OA\Schema(
-                *   @OA\Property(
-                *       property="name",
-                *       type="string"
-                *   ),
-                *   @OA\Property(
-                *       property="eventDate",
-                *       type="string",
-                *       format="date-time"
-                *   ),
-                *   @OA\Property(
-                *       property="eventLocation",
-                *       type="string"
-                *   ),
-                *   @OA\Property(
-                *       property="prizePool",
-                *       type="integer",
-                *       format="int64"
-                *   ),
-                *   @OA\Property(
-                *       property="sportsType",
-                *       type="string"
-                *   ),
- *                 example={"name":"EventX","event_date":"1995-09-26T21:52:51.000000Z","event_location":"81767 Heidenreich Ridge\nSouth Lisette, KY 12766","prize_pool":694138,"sports_type":"3km run"}
- *             )
+ *             @OA\Schema(ref="#/components/schemas/Competitions")
  *         )
  *     ),
  *     @OA\Response(
@@ -300,7 +252,7 @@ class CompetitionsController extends Controller
  *         description="OK",
  *          @OA\JsonContent(
  *                 @OA\Schema(ref="#/components/schemas/Competitions"),
- *             @OA\Examples(example="result", value={
+ *             @OA\Examples(example="competition", value={
                     * "data": {
                     *   "id": 122,
                     *   "name": "EventX",

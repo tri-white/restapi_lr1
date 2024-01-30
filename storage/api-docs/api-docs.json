@@ -143,33 +143,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "eventDate": {
-                                        "type": "string",
-                                        "format": "date-time"
-                                    },
-                                    "eventLocation": {
-                                        "type": "string"
-                                    },
-                                    "prizePool": {
-                                        "type": "integer",
-                                        "format": "int64"
-                                    },
-                                    "sportsType": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object",
-                                "example": {
-                                    "name": "EventX",
-                                    "event_date": "1995-09-26T21:52:51.000000Z",
-                                    "event_location": "81767 Heidenreich Ridge\\nSouth Lisette, KY 12766",
-                                    "prize_pool": 694138,
-                                    "sports_type": "3km run"
-                                }
+                                "$ref": "#/components/schemas/Competitions"
                             }
                         }
                     }
@@ -181,7 +155,7 @@
                             "application/json": {
                                 "schema": {},
                                 "examples": {
-                                    "result": {
+                                    "competition": {
                                         "summary": "A competition object.",
                                         "value": {
                                             "data": {
@@ -236,7 +210,7 @@
                             "application/json": {
                                 "schema": {},
                                 "examples": {
-                                    "result": {
+                                    "competition": {
                                         "summary": "A competition object.",
                                         "value": {
                                             "data": {
@@ -285,33 +259,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "eventDate": {
-                                        "type": "string",
-                                        "format": "date-time"
-                                    },
-                                    "eventLocation": {
-                                        "type": "string"
-                                    },
-                                    "prizePool": {
-                                        "type": "integer",
-                                        "format": "int64"
-                                    },
-                                    "sportsType": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object",
-                                "example": {
-                                    "name": "EventX",
-                                    "event_date": "1995-09-26T21:52:51.000000Z",
-                                    "event_location": "81767 Heidenreich Ridge\\nSouth Lisette, KY 12766",
-                                    "prize_pool": 694138,
-                                    "sports_type": "3km run"
-                                }
+                                "$ref": "#/components/schemas/Competitions"
                             }
                         }
                     }
@@ -323,7 +271,7 @@
                             "application/json": {
                                 "schema": {},
                                 "examples": {
-                                    "result": {
+                                    "competition": {
                                         "summary": "A competition object.",
                                         "value": {
                                             "data": {
@@ -377,17 +325,284 @@
                     }
                 }
             }
+        },
+        "/api/sportsmans": {
+            "get": {
+                "tags": [
+                    "Sportsmans"
+                ],
+                "summary": "Get list of sportsmans",
+                "description": "Returns list of sportsmans",
+                "operationId": "getSportsmansList",
+                "parameters": [
+                    {
+                        "name": "name[eq]",
+                        "in": "query",
+                        "description": "Name of the competition (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email[eq]",
+                        "in": "query",
+                        "description": "Date of the competition event (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "datetime",
+                            "format": "date-time"
+                        }
+                    },
+                    {
+                        "name": "gender[eq]",
+                        "in": "query",
+                        "description": "Location of the competition (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category[eq]",
+                        "in": "query",
+                        "description": "Prize pool amount (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sponsor[eq]",
+                        "in": "query",
+                        "description": "Type of sports for the competition (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "100m sprint",
+                                "3km run",
+                                "spear throwing",
+                                "football",
+                                "tennis"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "includeRegulations",
+                        "in": "query",
+                        "description": "Include sportsmans with competitions",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Sportsmans"
+                ],
+                "summary": "Adds a new sportsman",
+                "operationId": "efcb9f26335c0fd816b5a58f477f67ed",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Sportsmans"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "sportsman": {
+                                        "summary": "A sportsman object.",
+                                        "value": {
+                                            "data": {
+                                                "id": 2,
+                                                "name": "dolorem",
+                                                "email": "fwolff@rice.org",
+                                                "gender": "female",
+                                                "category": "spear throwing",
+                                                "sponsor": null
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable request (validation failed)"
+                    }
+                }
+            }
+        },
+        "/api/sportsmans/{id}": {
+            "get": {
+                "tags": [
+                    "Sportsmans"
+                ],
+                "summary": "Get sportsman by id",
+                "description": "Returns one sportsman record by id if it is found",
+                "operationId": "getSportsman",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of sportsman",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "sportsman": {
+                                        "summary": "A sportsman object.",
+                                        "value": {
+                                            "data": {
+                                                "id": 2,
+                                                "name": "dolorem",
+                                                "email": "fwolff@rice.org",
+                                                "gender": "female",
+                                                "category": "spear throwing",
+                                                "sponsor": null
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Sportsmans"
+                ],
+                "summary": "Updates a sportsman",
+                "operationId": "6aa90effecc4c3b05e5685ba42e4f22a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of sportsman to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Sportsmans"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "sportsman": {
+                                        "summary": "A sportsman object.",
+                                        "value": {
+                                            "data": {
+                                                "id": 2,
+                                                "name": "dolorem",
+                                                "email": "fwolff@rice.org",
+                                                "gender": "female",
+                                                "category": "spear throwing",
+                                                "sponsor": null
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Sportsman not found by id"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Sportsmans"
+                ],
+                "summary": "Deletes a sportsman",
+                "operationId": "249ea0341d2b99e2b427d5347ff5b015",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of sportsman to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sportsman successfully deleted"
+                    },
+                    "404": {
+                        "description": "Sportsman not found by id"
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
             "Competitions": {
-                "title": "Schema of competition record",
+                "title": "Competitions Schema",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
                     "name": {
                         "type": "string"
                     },
@@ -408,12 +623,106 @@
                 },
                 "type": "object",
                 "example": {
-                    "id": 1,
                     "name": "id",
                     "event_date": "1995-09-26T21:52:51.000000Z",
                     "event_location": "81767 Heidenreich Ridge\\nSouth Lisette, KY 12766",
                     "prize_pool": 694138,
                     "sports_type": "3km run"
+                }
+            },
+            "Regulation": {
+                "title": "Regulation Schema",
+                "required": [
+                    "name",
+                    "description",
+                    "minimal_requirements"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier for the regulation",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "description": "The name of the regulation",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "The description of the regulation",
+                        "type": "string"
+                    },
+                    "minimal_requirements": {
+                        "description": "The minimal requirements of the regulation",
+                        "type": "string"
+                    },
+                    "gender": {
+                        "description": "The gender for which the regulation applies",
+                        "type": "string",
+                        "default": "unisex",
+                        "enum": [
+                            "male",
+                            "female",
+                            "unisex"
+                        ]
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "name": "et",
+                    "description": "Qui corporis dolores harum rerum a sunt.",
+                    "minimalRequirements": "alias",
+                    "gender": "male"
+                }
+            },
+            "Sportsmans": {
+                "title": "Sportsmans Schema",
+                "required": [
+                    "name",
+                    "gender",
+                    "category"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "The name of the sportsman",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "The email address of the sportsman (optional)",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "gender": {
+                        "description": "The gender of the sportsman",
+                        "type": "string",
+                        "enum": [
+                            "male",
+                            "female"
+                        ]
+                    },
+                    "category": {
+                        "description": "The category of sports the sportsman participates in",
+                        "type": "string",
+                        "enum": [
+                            "tennis",
+                            "marathon",
+                            "spear throwing",
+                            "athletics"
+                        ]
+                    },
+                    "sponsor": {
+                        "description": "The sponsor of the sportsman (optional)",
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "name": "quibusdam",
+                    "email": "carroll.lesley@gmail.com",
+                    "gender": "female",
+                    "category": "marathon",
+                    "sponsor": null
                 }
             }
         }

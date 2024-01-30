@@ -5,6 +5,42 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+/**
+ * @OA\Schema(
+ *     schema="Regulation",
+ *     title="Regulation Schema",
+ *     required={"name", "description", "minimal_requirements"},
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer",
+ *         format="int64",
+ *         description="The unique identifier for the regulation"
+ *     ),
+ *     @OA\Property(
+ *         property="name",
+ *         type="string",
+ *         description="The name of the regulation"
+ *     ),
+ *     @OA\Property(
+ *         property="description",
+ *         type="string",
+ *         description="The description of the regulation"
+ *     ),
+ *     @OA\Property(
+ *         property="minimal_requirements",
+ *         type="string",
+ *         description="The minimal requirements of the regulation"
+ *     ),
+ *     @OA\Property(
+ *         property="gender",
+ *         type="string",
+ *         enum={"male", "female", "unisex"},
+ *         default="unisex",
+ *         description="The gender for which the regulation applies"
+ *     ),
+ * example = {"id":1,"name":"et","description":"Qui corporis dolores harum rerum a sunt.","minimalRequirements":"alias","gender":"male"},
+ * )
+ */
 
 class Regulations extends Model
 {

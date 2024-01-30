@@ -24,7 +24,7 @@ class StoreSportsmansRequest extends FormRequest
     {
         return [
             'name'=>'required|string|min:0|max:255',
-            'email'=>'nullable|email|string|min:0|max:255|unique:users, email',
+            'email'=>'nullable|email|string|min:0|max:255|unique:sportsmans,email',
             'gender'=>'required|'.Rule::in(['male','female']),
             'category'=>'required|'.Rule::in(['tennis','marathon','spear throwing','athletics']),
             'sponsor'=>'nullable|string|min:0|max:255',
