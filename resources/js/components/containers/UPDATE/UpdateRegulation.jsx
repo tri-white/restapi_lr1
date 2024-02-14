@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { setExpenseDocuments } from '../../redux/actions/expenseDocumentActions';
 
 const UpdateExpenseDocument = ({ onClose }) => {
   const { id } = useParams();
@@ -14,7 +12,6 @@ const UpdateExpenseDocument = ({ onClose }) => {
   const [selectedExpenseType, setSelectedExpenseType] = useState('');
   const [date, setDate] = useState('');
   const [amount, setAmount] = useState('');
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -76,7 +73,6 @@ const UpdateExpenseDocument = ({ onClose }) => {
       });
 
       const response = await axios.get('http://localhost:3001/api/expense-documents/');
-      dispatch(setExpenseDocuments(response.data));
 
       navigate('/expense-documents');
     } catch (error) {

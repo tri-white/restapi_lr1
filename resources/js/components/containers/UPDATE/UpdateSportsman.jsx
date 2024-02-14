@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { setEmployees } from '../../redux/actions/employeeActions';
 
 const UpdateEmployee = ({ onClose }) => {
   const { id } = useParams();
   const [name, setName] = useState('');
   const [department, setDepartment] = useState('');
   const [departments, setDepartments] = useState([]); // Added state for departments
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {

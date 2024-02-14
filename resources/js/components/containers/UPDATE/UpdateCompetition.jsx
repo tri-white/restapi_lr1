@@ -1,14 +1,11 @@
 // UpdateDepartmentForm.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { setDepartments } from '../../redux/actions/departmentsActions';
 
 const UpdateDepartment = ({ onClose }) => {
   const { id } = useParams();
   const [name, setName] = useState('');
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,7 +29,6 @@ const UpdateDepartment = ({ onClose }) => {
       });
 
       const response = await axios.get('http://localhost:3001/api/departments/');
-      dispatch(setDepartments(response.data));
 
       navigate('/departments');
     } catch (error) {

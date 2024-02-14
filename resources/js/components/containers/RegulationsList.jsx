@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { setExpenseDocuments, deleteExpenseDocument, addExpenseDocument } from '../redux/actions/expenseDocumentActions';
 import { useNavigate } from 'react-router-dom';
 
 const ExpenseDocumentList = () => {
-  const dispatch = useDispatch();
-  const expenseDocuments = useSelector((state) => state.allExpenseDocuments.expenseDocuments);
   const [departments, setDepartments] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [expenseTypes, setExpenseTypes] = useState([]);
@@ -18,51 +14,23 @@ const ExpenseDocumentList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchExpenseDocuments = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/api/expense-documents/');
-        dispatch(setExpenseDocuments(response.data));
-      } catch (error) {
-        console.error('Error fetching expense documents:', error);
-      }
-    };
-
-    const fetchDepartments = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/api/departments/');
-        setDepartments(response.data);
-      } catch (error) {
-        console.error('Error fetching departments:', error);
-      }
-    };
 
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/employees/');
+        const response = await axios.get('http://localhost:8000/api/regulations/');
         setEmployees(response.data);
       } catch (error) {
         console.error('Error fetching employees:', error);
       }
     };
 
-    const fetchExpenseTypes = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/api/expense-types/');
-        setExpenseTypes(response.data);
-      } catch (error) {
-        console.error('Error fetching expense types:', error);
-      }
-    };
 
-    fetchExpenseDocuments();
-    fetchDepartments();
     fetchEmployees();
-    fetchExpenseTypes();
   }, [dispatch]);
 
   const handleAddExpenseDocument = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/api/expense-documents/', {
+      const response = await axios.post('http://localhost:8000/api/regulations/', {
         department: selectedDepartment,
         employee: selectedEmployee,
         expenseType: selectedExpenseType,
@@ -70,7 +38,6 @@ const ExpenseDocumentList = () => {
         amount,
       });
 
-      dispatch(addExpenseDocument(response.data));
       navigate('/expense-documents');
     } catch (error) {
       console.error('Error adding expense document:', error);
@@ -79,8 +46,7 @@ const ExpenseDocumentList = () => {
 
   const handleDeleteExpenseDocument = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/api/expense-documents/${id}`);
-      dispatch(deleteExpenseDocument(id));
+      await axios.delete(`http://localhost:8000/api/regulations/${id}`);
 
     } catch (error) {
       console.error('Помилка при видаленні документа витрат:', error);

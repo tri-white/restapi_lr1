@@ -1,60 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { setDepartments, addDepartment, deleteDepartment } from '../redux/actions/departmentsActions';
 import { useNavigate } from 'react-router-dom';
 
-const DepartmentList = () => {
-  const dispatch = useDispatch();
-  const departments = useSelector((state) => state.allDepartments.departments);
+const CompetitionList = () => {
   const navigate = useNavigate();
-  const [newDepartmentName, setNewDepartmentName] = useState('');
+  const [competitions, setCompetitions] = useState([]);
+  const [newCompetitionName, setNewCompetitionName] = useState('');
 
   useEffect(() => {
-    const fetchDepartments = async () => {
+    const fetchCompetitions = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/departments/');
-        dispatch(setDepartments(response.data));
+        const response = await axios.get('/api/competitions/');
+        setCompetitions(response.data.data);
       } catch (error) {
-        console.error('Помилка при отриманні департаментів:', error);
+        console.error('Помилка при отриманні змагань:', error);
       }
     };
 
-    fetchDepartments();
-  }, [dispatch]);
+    fetchCompetitions();
+  
 
-  const handleAddDepartment = async () => {
+  }, []); // Empty dependency array to ensure the effect runs only once on component mount
+
+  const handleAddCompetition = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/api/departments/', { name: newDepartmentName });
-      dispatch(addDepartment(response.data));
-      setNewDepartmentName('');
+      const response = await axios.post('http://localhost:8000/api/competitions/', 
+        { 
+          name: newCompetitionName 
+        }
+      );
+      // Add the newly created competition to the competitions array
+      setCompetitions([...competitions, response.data]);
+      setNewCompetitionName('');
     } catch (error) {
-      console.error('Помилка при додаванні департаменту:', error);
+      console.error('Помилка при додаванні змагання:', error);
     }
   };
 
-  const handleDeleteDepartment = async (id) => {
+  const handleDeleteCompetition = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/api/departments/${id}`);
-      dispatch(deleteDepartment(id));
+      await axios.delete(`http://localhost:8000/api/competitions/${id}`);
+      // Remove the deleted competition from the competitions array
+      setCompetitions(competitions.filter(competition => competition._id !== id));
     } catch (error) {
-      console.error('Помилка при видаленні департаменту:', error);
+      console.error('Помилка при видаленні змагання:', error);
     }
   };
 
   const handleUpdateClick = (id) => {
-    navigate(`/departments/update/${id}`);
+    navigate(`/competitions/${id}/update`);
   };
 
-  const renderList = departments.map((department) => (
-    <tr key={department._id}>
-      <td>{department._id}</td>
-      <td>{department.name}</td>
+  const renderList = competitions.map((competition) => (
+    <tr key={competition.id}>
+      <td>{competition.id}</td>
+      <td>{competition.name}</td>
+      <td>{competition.eventDate}</td>
+      <td>{competition.eventLocation}</td>
+      <td>{competition.sportsType}</td>
+      <td>{competition.prizePool}</td>
       <td>
-        <button className="btn btn-primary btn-sm me-2" onClick={() => handleUpdateClick(department._id)}>
+        <button className="btn btn-primary btn-sm me-2" onClick={() => handleUpdateClick(competition.id)}>
           Редагувати
         </button>
-        <button className="btn btn-danger btn-sm" onClick={() => handleDeleteDepartment(department._id)}>
+        <button className="btn btn-danger btn-sm" onClick={() => handleDeleteCompetition(competition.id)}>
           Видалити
         </button>
       </td>
@@ -63,32 +72,36 @@ const DepartmentList = () => {
 
   return (
     <div className="container mt-4">
-      <h2>Департаменти</h2>
+      <h2>Змагання</h2>
 
       <div className="mb-3">
-        <h3>Додати департамент</h3>
+        <h3>Додати змагання</h3>
         <div className="input-group">
           <input
             type="text"
-            id="departmentName"
+            id="competitionName"
             className="form-control"
-            placeholder="Назва департаменту"
-            value={newDepartmentName}
-            onChange={(e) => setNewDepartmentName(e.target.value)}
+            placeholder="Назва змагання"
+            value={newCompetitionName}
+            onChange={(e) => setNewCompetitionName(e.target.value)}
           />
-          <button className="btn btn-primary" onClick={handleAddDepartment}>
-            Додати департамент
+          <button className="btn btn-primary" onClick={handleAddCompetition}>
+            Додати змагання
           </button>
         </div>
       </div>
 
       <div>
-        <h3>Список департаментів</h3>
+        <h3>Список змагань</h3>
         <table className="table">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Назва департаменту</th>
+              <th>Назва змагання</th>
+              <th>Дата проведення</th>
+              <th>Місце проведення</th>
+              <th>Вид спорту</th>
+              <th>Призовий фонд ($)</th>
               <th>Дії</th>
             </tr>
           </thead>
@@ -99,4 +112,4 @@ const DepartmentList = () => {
   );
 };
 
-export default DepartmentList;
+export default CompetitionList;

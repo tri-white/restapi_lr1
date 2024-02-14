@@ -4,10 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import axios from "axios";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { configureStore } from "@reduxjs/toolkit"
 import 'bootstrap/dist/css/bootstrap.css';
-import { Provider } from 'react-redux';
-import store from "./redux/store";
 import CompetitionsList from './containers/CompetitionsList';
 import UpdateCompetition from './containers/UPDATE/UpdateCompetition';
 import SportsmansList from './containers/SportsmansList';
@@ -52,9 +49,7 @@ if (document.getElementById('example')) {
 
     Index.render(
         <React.StrictMode>
-            <Provider store={store}>
                <App />
-            </Provider>
         </React.StrictMode>
     )
 }

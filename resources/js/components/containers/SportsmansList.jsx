@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { deleteEmployee, setEmployees, addEmployee } from '../redux/actions/employeeActions';
 import { useNavigate } from 'react-router-dom';
 
 const EmployeeList = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [departments, setDepartments] = useState([]);
@@ -14,8 +11,7 @@ const EmployeeList = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/employees/");
-      dispatch(setEmployees(response.data));
+      const response = await axios.get("http://localhost:8000/api/sportsmans/");
     } catch (err) {
       console.log("Помилка", err);
     }
@@ -23,7 +19,7 @@ const EmployeeList = () => {
 
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/departments/");
+      const response = await axios.get("http://localhost:8000/api/sportsmans/");
       setDepartments(response.data);
     } catch (err) {
       console.log("Помилка", err);
@@ -37,8 +33,7 @@ const EmployeeList = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/api/employees/${id}`);
-      dispatch(deleteEmployee(id));
+      await axios.delete(`http://localhost:8000/api/sportsmans/${id}`);
     } catch (error) {
       console.error('Помилка при видаленні працівника:', error);
     }
@@ -50,11 +45,10 @@ const EmployeeList = () => {
 
   const handleAddEmployee = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/api/employees/', {
+      const response = await axios.post('http://localhost:8000/api/sportsmans/', {
         name,
         department: selectedDepartment,
       });
-      dispatch(addEmployee(response.data));
 
       setName('');
       setSelectedDepartment('');
