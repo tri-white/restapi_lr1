@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
- *     schema="Regulation",
+ *     schema="Regulations",
  *     title="Regulation Schema",
  *     required={"name", "description", "minimal_requirements"},
  *     @OA\Property(

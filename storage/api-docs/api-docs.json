@@ -326,6 +326,248 @@
                 }
             }
         },
+        "/api/regulations": {
+            "get": {
+                "tags": [
+                    "Regulations"
+                ],
+                "summary": "Get list of regulations",
+                "description": "Returns list of regulations",
+                "operationId": "getRegulationsList",
+                "parameters": [
+                    {
+                        "name": "name[eq]",
+                        "in": "query",
+                        "description": "Name of the regulation (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description[eq]",
+                        "in": "query",
+                        "description": "Description of regulation (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "gender[eq]",
+                        "in": "query",
+                        "description": "Gender of regulation (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "minimal_requirements[eq]",
+                        "in": "query",
+                        "description": "Minimal requirements for regulation (equal to the specified value)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Regulations"
+                ],
+                "summary": "Adds a new regulation",
+                "operationId": "b285d4c0828926f5b26b5376ce53e336",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Regulations"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "regulation": {
+                                        "summary": "A regulation object.",
+                                        "value": {
+                                            "data": {
+                                                "id": 1,
+                                                "name": "et",
+                                                "description": "Qui corporis dolores harum rerum a sunt.",
+                                                "minimalRequirements": "alias",
+                                                "gender": "male"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable request (validation failed)"
+                    }
+                }
+            }
+        },
+        "/api/regulations/{id}": {
+            "get": {
+                "tags": [
+                    "Regulations"
+                ],
+                "summary": "Get regulation by id",
+                "description": "Returns one regulation record by id if it is found",
+                "operationId": "getRegulation",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of regulation",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "regulation": {
+                                        "summary": "A regulation object.",
+                                        "value": {
+                                            "data": {
+                                                "id": 1,
+                                                "name": "et",
+                                                "description": "Qui corporis dolores harum rerum a sunt.",
+                                                "minimalRequirements": "alias",
+                                                "gender": "male"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Regulations"
+                ],
+                "summary": "Updates a regulation",
+                "operationId": "ccb89ca0a50f55e396a6b4e5d8d6baac",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of regulation to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Regulations"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "regulation": {
+                                        "summary": "A regulation object.",
+                                        "value": {
+                                            "data": {
+                                                "id": 1,
+                                                "name": "et",
+                                                "description": "Qui corporis dolores harum rerum a sunt.",
+                                                "minimalRequirements": "alias",
+                                                "gender": "male"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Regulation not found by id"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Regulations"
+                ],
+                "summary": "Deletes a regulation",
+                "operationId": "2a5516f4df176f3fa6d509c6c33602af",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of regulation to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "An int value.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Regulation successfully deleted"
+                    },
+                    "404": {
+                        "description": "Regulation not found by id"
+                    }
+                }
+            }
+        },
         "/api/sportsmans": {
             "get": {
                 "tags": [
@@ -630,7 +872,7 @@
                     "sports_type": "3km run"
                 }
             },
-            "Regulation": {
+            "Regulations": {
                 "title": "Regulation Schema",
                 "required": [
                     "name",

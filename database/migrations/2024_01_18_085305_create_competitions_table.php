@@ -20,7 +20,6 @@ return new class extends Migration
             $table->enum('sports_type', array('100m sprint','3km run', 'spear throwing','football','tennis'));
             $table->timestamps();
             $table->index('event_date');
-            //check for event_date after today.
 
             $table->softDeletes();
         });
