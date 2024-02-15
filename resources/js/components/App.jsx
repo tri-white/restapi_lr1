@@ -2,15 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Header from './Header';
 import Footer from './Footer';
-import axios from "axios";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import CompetitionsList from './containers/CompetitionsList';
-import UpdateCompetition from './containers/UPDATE/UpdateCompetition';
 import SportsmansList from './containers/SportsmansList';
-import UpdateSportsman from './containers/UPDATE/UpdateSportsman';
 import RegulationsList from './containers/RegulationsList';
-import UpdateRegulation from './containers/UPDATE/UpdateRegulation';
+import { Provider } from 'react-redux';
+import store from "./redux/store";
 
 const WelcomePage = () => (
     <div className="container mt-5 bg-success text-light p-3 py-5 h-100">
@@ -49,7 +47,9 @@ if (document.getElementById('example')) {
 
     Index.render(
         <React.StrictMode>
-               <App />
+               <Provider store={store}>
+                    <App />
+                </Provider>
         </React.StrictMode>
     )
 }
