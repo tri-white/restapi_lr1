@@ -25,9 +25,9 @@ function App() {
                 <Route path="/" element={<WelcomePage />} />
                 <Route path="/competitions" element={<CompetitionsList />} />
                 <Route path="/competitions/:id/update" element={"hi"} />
-                <Route path="/regulations" element={<SportsmansList />} />
+                <Route path="/regulations" element={<RegulationsList />} />
                 <Route path="/regulations/:id/update" element={"hi"} />
-                <Route path="/sportsmans" element={<RegulationsList />} />
+                <Route path="/sportsmans" element={<SportsmansList />} />
                 <Route path="/sportsmans/:id/update" element={"hi"} />
             </Routes>
             <Footer />

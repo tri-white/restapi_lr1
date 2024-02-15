@@ -1,78 +1,76 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSportsmans, addSportsman, deleteSportsman} from '../redux/actions/sportsmanActions';
 
 const EmployeeList = () => {
   const navigate = useNavigate();
+  const sportsmans = useSelector((state) => state.allSportsmans.SPORTSMANS);
+  const [newSportsmanName, setNewSportsmanName] = useState('');
+  const dispatch = useDispatch();
+  const [pagination, setPagination] = useState([]);
 
-  const [departments, setDepartments] = useState([]);
-  const [name, setName] = useState('');
-  const [selectedDepartment, setSelectedDepartment] = useState('');
-
-  const fetchEmployees = async () => {
+  const fetchSportsmans = async () => {
     try {
       const response = await axios.get("http://localhost:8000/api/sportsmans/");
-    } catch (err) {
-      console.log("Помилка", err);
-    }
-  };
-
-  const fetchDepartments = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/api/sportsmans/");
-      setDepartments(response.data);
+      dispatch(setSportsmans(response.data.data));
+        setPagination(response.data.links);
+        console.log('pages');
+        console.log(pagination);
     } catch (err) {
       console.log("Помилка", err);
     }
   };
 
   useEffect(() => {
-    fetchEmployees();
-    fetchDepartments();
-  }, []);
+    fetchSportsmans();
+  }, [dispatch]);
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8000/api/sportsmans/${id}`);
+      dispatch(deleteSportsman(id));
+  
     } catch (error) {
       console.error('Помилка при видаленні працівника:', error);
     }
   };
 
   const handleUpdateClick = (id) => {
-    navigate(`/employees/update/${id}`);
+    navigate(`/sportsmans/${id}/update`);
   };
 
-  const handleAddEmployee = async () => {
+  const handleAdd = async () => {
     try {
       const response = await axios.post('http://localhost:8000/api/sportsmans/', {
         name,
-        department: selectedDepartment,
       });
 
-      setName('');
-      setSelectedDepartment('');
-      navigate('/employees');
+      dispatch(addSportsman(response.data));
+      setNewSportsmanName('');
+      //navigate('/employees');
     } catch (error) {
       console.error('Помилка при додаванні працівника:', error);
     }
   };
 
-  const renderList = useSelector((state) => state.allEmployees.employees).map((employee) => {
-    const { _id, name, department } = employee;
-
-    const selectedDepartment = departments.find((dept) => dept._id === department);
+  const renderList = useSelector((state) => state.allSportsmans.SPORTSMANS).map((sportsman) => {
+    const { id, name, email, gender, category, sponsor } = sportsman;
 
     return (
-      <tr key={_id} className="table-row">
-        <td>{_id}</td>
+      <tr key={id} className="table-row">
+        <td>{id}</td>
         <td>{name}</td>
-        <td>{selectedDepartment ? selectedDepartment.name : ''}</td>
+        <td>{email}</td>
+        <td>{gender}</td>
+        <td>{category}</td>
+        <td>{sponsor}</td>
         <td>
-          <button className="btn btn-primary btn-sm me-2" onClick={() => handleUpdateClick(_id)}>
+          <button className="btn btn-primary btn-sm me-2" onClick={() => handleUpdateClick(id)}>
             Редагувати
           </button>
-          <button className="btn btn-danger btn-sm" onClick={() => handleDelete(_id)}>
+          <button className="btn btn-danger btn-sm" onClick={() => handleDelete(id)}>
             Видалити
           </button>
         </td>
@@ -82,44 +80,15 @@ const EmployeeList = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3">Додати працівника</h2>
+      <h2 className="mb-3">Додати спортсмена</h2>
       <form className="mb-4">
-        <div className="mb-3">
-          <label htmlFor="name" className="form-label">
-            Ім'я:
-          </label>
-          <input
-            type="text"
-            id="name"
-            className="form-control"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="department" className="form-label">
-            Департамент:
-          </label>
-          <select
-            id="department"
-            className="form-select"
-            value={selectedDepartment}
-            onChange={(e) => setSelectedDepartment(e.target.value)}
-          >
-            <option value="">Виберіть департамент</option>
-            {departments.map((department) => (
-              <option key={department._id} value={department._id}>
-               {department.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <button type="button" className="btn btn-primary" onClick={handleAddEmployee}>
-          Додати працівника
+        
+        <button type="button" className="btn btn-primary" onClick={handleAdd}>
+          Додати спортсмена
         </button>
       </form>
 
-      <h2 className="mb-3">Список працівників</h2>
+      <h2 className="mb-3">Список спортсменів</h2>
 
       <table className="table">
         <thead>
