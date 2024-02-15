@@ -5,7 +5,7 @@ import { regulationReducer } from "./regulationReducer";
 const reducers = combineReducers({
     allSportsmans: sportsmanReducer,
     allCompetitions: competitionReducer,
-    allREgulations: regulationReducer
+    allRegulations: regulationReducer
 })
 
 export default reducers;

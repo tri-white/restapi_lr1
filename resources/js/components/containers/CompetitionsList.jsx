@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setCompetitions, addCompetition, deleteCompetition } from '../redux/actions/competitionActions';
 const CompetitionList = () => {
   const navigate = useNavigate();
-  const [competitions, setCompetitions] = useState([]);
+  const competitions = useSelector((state) => state.allCompetitions.COMPETITIONS);
   const [newCompetitionName, setNewCompetitionName] = useState('');
-
+  const dispatch = useDispatch();
+  const [pagination, setPagination] = useState([]);
   useEffect(() => {
     const fetchCompetitions = async () => {
       try {
         const response = await axios.get('/api/competitions/');
-        setCompetitions(response.data.data);
+        dispatch(setCompetitions(response.data.data));
+        setPagination(response.data.links);
+        console.log('pages');
+        console.log(pagination);
       } catch (error) {
         console.error('Помилка при отриманні змагань:', error);
       }
@@ -20,17 +25,18 @@ const CompetitionList = () => {
     fetchCompetitions();
   
 
-  }, []); // Empty dependency array to ensure the effect runs only once on component mount
+  }, [dispatch]); // Empty dependency array to ensure the effect runs only once on component mount
 
   const handleAddCompetition = async () => {
     try {
       const response = await axios.post('http://localhost:8000/api/competitions/', 
         { 
-          name: newCompetitionName 
+          name: newCompetitionName,
+
         }
       );
       // Add the newly created competition to the competitions array
-      setCompetitions([...competitions, response.data]);
+      dispatch(addCompetition(response.data));
       setNewCompetitionName('');
     } catch (error) {
       console.error('Помилка при додаванні змагання:', error);
@@ -41,7 +47,7 @@ const CompetitionList = () => {
     try {
       await axios.delete(`http://localhost:8000/api/competitions/${id}`);
       // Remove the deleted competition from the competitions array
-      setCompetitions(competitions.filter(competition => competition._id !== id));
+      dispatch(deleteCompetition(id));
     } catch (error) {
       console.error('Помилка при видаленні змагання:', error);
     }

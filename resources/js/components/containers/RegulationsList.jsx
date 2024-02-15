@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setRegulations, addRegulation, deleteRegulation } from '../redux/actions/regulationActions';
 
-const ExpenseDocumentList = () => {
-  const [departments, setDepartments] = useState([]);
-  const [employees, setEmployees] = useState([]);
-  const [expenseTypes, setExpenseTypes] = useState([]);
-  const [selectedDepartment, setSelectedDepartment] = useState('');
-  const [selectedEmployee, setSelectedEmployee] = useState('');
-  const [selectedExpenseType, setSelectedExpenseType] = useState('');
-  const [date, setDate] = useState('');
-  const [amount, setAmount] = useState('');
+const RegulationsList = () => {
   const navigate = useNavigate();
+  const regulations = useSelector((state) => state.allRegulations.REGULATIONS);
+  const [newRegulationName, setNewRegulationName] = useState('');
+  const dispatch = useDispatch();
+  const [pagination, setPagination] = useState([]);
 
   useEffect(() => {
 
     const fetchEmployees = async () => {
       try {
         const response = await axios.get('http://localhost:8000/api/regulations/');
-        setEmployees(response.data);
+        dispatch(setRegulations(response.data.data));
+        setPagination(response.data.links);
+        console.log('pages');
+        console.log(pagination);
       } catch (error) {
         console.error('Error fetching employees:', error);
       }
@@ -28,25 +29,28 @@ const ExpenseDocumentList = () => {
     fetchEmployees();
   }, [dispatch]);
 
-  const handleAddExpenseDocument = async () => {
+  const handleAddRegulation = async () => {
     try {
       const response = await axios.post('http://localhost:8000/api/regulations/', {
-        department: selectedDepartment,
+        regulation: selectedDepartment,
         employee: selectedEmployee,
         expenseType: selectedExpenseType,
         date,
         amount,
       });
 
-      navigate('/expense-documents');
+      // Add the newly created competition to the competitions array
+      dispatch(addRegulation(response.data));
+      setNewRegulationName('');
     } catch (error) {
       console.error('Error adding expense document:', error);
     }
   };
 
-  const handleDeleteExpenseDocument = async (id) => {
+  const handleDeleteRegulation = async (id) => {
     try {
       await axios.delete(`http://localhost:8000/api/regulations/${id}`);
+      dispatch(deleteRegulation(id));
 
     } catch (error) {
       console.error('Помилка при видаленні документа витрат:', error);
@@ -54,26 +58,22 @@ const ExpenseDocumentList = () => {
   };
 
   const handleUpdateClick = (id) => {
-    navigate(`/expense-documents/update/${id}`);
+    navigate(`/regulations/${id}/update`);
   };
 
-  const renderList = expenseDocuments.map((expenseDocument) => {
-    const { _id, department, employee, expenseType, date, amount } = expenseDocument;
-    const departmentName = departments.find((dept) => dept._id === department)?.name || 'N/A';
-    const employeeName = employees.find((emp) => emp._id === employee)?.name || 'N/A';
-    const expenseTypeName = expenseTypes.find((type) => type._id === expenseType)?.name || 'N/A';
+  const renderList = regulations.map((regulation) => {
+    const { id, name, gender, description,minimalRequirements} = regulation;
 
     return (
-      <tr key={_id}>
-        <td>{_id}</td>
-        <td>{departmentName}</td>
-        <td>{employeeName}</td>
-        <td>{expenseTypeName}</td>
-        <td>{date}</td>
-        <td>{amount}</td>
+      <tr key={id}>
+        <td>{id}</td>
+        <td>{name}</td>
+        <td>{description}</td>
+        <td>{gender}</td>
+        <td>{minimalRequirements}</td>
         <td>
-          <button className="btn btn-primary me-2" onClick={() => handleUpdateClick(_id)}>Редагувати</button>
-          <button className="btn btn-danger" onClick={() => handleDeleteExpenseDocument(_id)}>Видалити</button>
+          <button className="btn btn-primary me-2" onClick={() => handleUpdateClick(id)}>Редагувати</button>
+          <button className="btn btn-danger" onClick={() => handleDeleteRegulation(id)}>Видалити</button>
         </td>
       </tr>
     );
@@ -81,86 +81,14 @@ const ExpenseDocumentList = () => {
 
   return (
     <div className="container mt-4">
-      <h2>Документи витрат</h2>
+      <h2>Нормативи</h2>
       <div className="expense-document-list">
         <div>
-          <h2>Додати документ витрат</h2>
+          <h2>Додати норматив</h2>
           <form>
-            <div className="mb-3">
-              <label htmlFor="department" className="form-label">Департамент:</label>
-              <select
-                id="department"
-                className="form-select"
-                value={selectedDepartment}
-                onChange={(e) => setSelectedDepartment(e.target.value)}
-              >
-                <option value="">Виберіть департамент</option>
-                {departments.map((department) => (
-                  <option key={department._id} value={department._id}>
-                    {department.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="employee" className="form-label">Працівник:</label>
-              <select
-                id="employee"
-                className="form-select"
-                value={selectedEmployee}
-                onChange={(e) => setSelectedEmployee(e.target.value)}
-              >
-                <option value="">Виберіть працівника</option>
-                {employees.map((employee) => (
-                  <option key={employee._id} value={employee._id}>
-                    {employee.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="expenseType" className="form-label">Тип витрат:</label>
-              <select
-                id="expenseType"
-                className="form-select"
-                value={selectedExpenseType}
-                onChange={(e) => setSelectedExpenseType(e.target.value)}
-              >
-                <option value="">Виберіть тип витрат</option>
-                {expenseTypes.map((expenseType) => (
-                  <option key={expenseType._id} value={expenseType._id}>
-                    {expenseType.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="mb-3">
-  <label htmlFor="date" className="form-label">Дата:</label>
-  <input
-    type="date"
-    id="date"
-    className="form-control"
-    value={date}
-    onChange={(e) => setDate(e.target.value)}
-    pattern="\d{2}/\d{2}/\d{4}"
-    placeholder="MM/dd/YYYY"
-  />
-</div>
 
-            <div className="mb-3">
-              <label htmlFor="amount" className="form-label">Сума:</label>
-              <input
-                type="text"
-                id="amount"
-                className="form-control"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value.replace(/\D/, ''))}
-                inputMode="numeric"
-                pattern="[0-9]*"
-              />
-            </div>
-            <button type="button" className="btn btn-primary" onClick={handleAddExpenseDocument}>
-              Додати документ витрат
+            <button type="button" className="btn btn-primary" onClick={handleAddRegulation}>
+              Додати норматив
             </button>
           </form>
         </div>
@@ -169,12 +97,10 @@ const ExpenseDocumentList = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Департамент</th>
-              <th>Працівник</th>
-              <th>Тип витрат</th>
-              <th>Дата</th>
-              <th>Сума</th>
-              <th>Дії</th>
+              <th>Назва</th>
+              <th>Опис</th>
+              <th>Стать</th>
+              <th>Вимоги</th>
             </tr>
           </thead>
           <tbody>
@@ -186,4 +112,4 @@ const ExpenseDocumentList = () => {
   );
 };
 
-export default ExpenseDocumentList;
+export default RegulationsList;

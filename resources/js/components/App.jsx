@@ -12,8 +12,7 @@ import store from "./redux/store";
 
 const WelcomePage = () => (
     <div className="container mt-5 bg-success text-light p-3 py-5 h-100">
-      <h1 className="display-4">Це CRUD з використанням Laravel/React/Axios/XAMPP/Bootstrap</h1>
-      <p className="lead">Це перша сторінка, тут мала б бути цікава інформація в гарній обгортці</p>
+      <h1 className="display-4">Це CRUD</h1>
     </div>
   );
 
