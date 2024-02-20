@@ -100,7 +100,10 @@ const RegulationsList = () => {
             className="form-control"
             placeholder="Пошук за назвою"
             value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
+            onChange={(e) => {
+              setSearchName(e.target.value);
+              setPage(1);
+            }}
           />
         </div>
         <h3>Список документів витрат</h3>

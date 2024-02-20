@@ -58,10 +58,6 @@ const CompetitionList = () => {
   const fetchNextPrevTasks = (link) => {
     const url = new URL(link);
     setPage(url.searchParams.get('page'));
-  }
-
-  const handleSearch = () => {
-    setPage(1); // Set page to 1 when performing a search
   };
 
   const renderList = competitions.map((competition) => (
@@ -112,11 +108,11 @@ const CompetitionList = () => {
             className="form-control"
             placeholder="Пошук за назвою змагання"
             value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
+            onChange={(e) => {
+              setSearchName(e.target.value);
+              setPage(1);
+            }}
           />
-          <button className="btn btn-primary" onClick={handleSearch}>
-            Пошук
-          </button>
         </div>
         <table className="table">
           <thead>

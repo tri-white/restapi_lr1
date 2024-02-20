@@ -73,7 +73,8 @@ const EmployeeList = () => {
         <td>{email}</td>
         <td>{gender}</td>
         <td>{category}</td>
-        <td>{sponsor}</td>
+        <td>{sponsor ? sponsor : "-"}</td>
+
         <td>
           <button className="btn btn-primary btn-sm me-2" onClick={() => handleUpdateClick(id)}>
             Редагувати
@@ -101,7 +102,10 @@ const EmployeeList = () => {
             className="form-control"
             placeholder="Пошук за назвою"
             value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
+            onChange={(e) => {
+              setSearchName(e.target.value);
+              setPage(1);
+            }}
           />
         </div>
       <h2 className="mb-3">Список спортсменів</h2>
@@ -111,7 +115,10 @@ const EmployeeList = () => {
           <tr>
             <th>ID</th>
             <th>Ім'я</th>
-            <th>Департамент</th>
+            <th>Пошта</th>
+            <th>Стать</th>
+            <th>Спорт</th>
+            <th>Спонсор</th>
             <th>Дії</th>
           </tr>
         </thead>
