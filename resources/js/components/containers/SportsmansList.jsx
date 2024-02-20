@@ -10,10 +10,14 @@ const EmployeeList = () => {
   const [newSportsmanName, setNewSportsmanName] = useState('');
   const dispatch = useDispatch();
   const [pagination, setPagination] = useState([]);
+  const [searchName, setSearchName] = useState('');
 
+
+  useEffect(() => {
+    
   const fetchSportsmans = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/sportsmans/");
+      const response = await axios.get("http://localhost:8000/api/sportsmans?name[eq]="+searchName);
       dispatch(setSportsmans(response.data.data));
         setPagination(response.data.links);
         console.log('pages');
@@ -23,9 +27,8 @@ const EmployeeList = () => {
     }
   };
 
-  useEffect(() => {
     fetchSportsmans();
-  }, [dispatch]);
+  }, [dispatch, searchName]);
 
   const handleDelete = async (id) => {
     try {
@@ -87,7 +90,15 @@ const EmployeeList = () => {
           Додати спортсмена
         </button>
       </form>
-
+      <div className="input-group mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Пошук за назвою"
+            value={searchName}
+            onChange={(e) => setSearchName(e.target.value)}
+          />
+        </div>
       <h2 className="mb-3">Список спортсменів</h2>
 
       <table className="table">

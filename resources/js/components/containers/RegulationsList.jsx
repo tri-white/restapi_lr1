@@ -10,24 +10,24 @@ const RegulationsList = () => {
   const [newRegulationName, setNewRegulationName] = useState('');
   const dispatch = useDispatch();
   const [pagination, setPagination] = useState([]);
+  const [searchName, setSearchName] = useState('');
 
   useEffect(() => {
 
-    const fetchEmployees = async () => {
+    const fetchRegulations = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/regulations/');
+        const response = await axios.get('http://localhost:8000/api/regulations?name[eq]='+searchName);
         dispatch(setRegulations(response.data.data));
         setPagination(response.data.links);
         console.log('pages');
         console.log(pagination);
       } catch (error) {
-        console.error('Error fetching employees:', error);
+        console.error('Error fetching regulations:', error);
       }
     };
 
-
-    fetchEmployees();
-  }, [dispatch]);
+    fetchRegulations();
+  }, [dispatch, searchName]);
 
   const handleAddRegulation = async () => {
     try {
@@ -39,11 +39,10 @@ const RegulationsList = () => {
         amount,
       });
 
-      // Add the newly created competition to the competitions array
       dispatch(addRegulation(response.data));
       setNewRegulationName('');
     } catch (error) {
-      console.error('Error adding expense document:', error);
+      console.error('Error adding regulation:', error);
     }
   };
 
@@ -51,9 +50,8 @@ const RegulationsList = () => {
     try {
       await axios.delete(`http://localhost:8000/api/regulations/${id}`);
       dispatch(deleteRegulation(id));
-
     } catch (error) {
-      console.error('Помилка при видаленні документа витрат:', error);
+      console.error('Error deleting regulation:', error);
     }
   };
 
@@ -62,7 +60,7 @@ const RegulationsList = () => {
   };
 
   const renderList = regulations.map((regulation) => {
-    const { id, name, gender, description,minimalRequirements} = regulation;
+    const { id, name, gender, description, minimalRequirements } = regulation;
 
     return (
       <tr key={id}>
@@ -86,11 +84,19 @@ const RegulationsList = () => {
         <div>
           <h2>Додати норматив</h2>
           <form>
-
             <button type="button" className="btn btn-primary" onClick={handleAddRegulation}>
               Додати норматив
             </button>
           </form>
+        </div>
+        <div className="input-group mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Пошук за назвою"
+            value={searchName}
+            onChange={(e) => setSearchName(e.target.value)}
+          />
         </div>
         <h3>Список документів витрат</h3>
         <table className="table">

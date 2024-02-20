@@ -3,39 +3,39 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCompetitions, addCompetition, deleteCompetition } from '../redux/actions/competitionActions';
+
 const CompetitionList = () => {
   const navigate = useNavigate();
   const competitions = useSelector((state) => state.allCompetitions.COMPETITIONS);
   const [newCompetitionName, setNewCompetitionName] = useState('');
   const dispatch = useDispatch();
-  const [pagination, setPagination] = useState([]);
+  const [searchName, setSearchName] = useState('');
+  const [page, setPage] = useState(1);
+  const [links, setLinks] = useState([]);
+
   useEffect(() => {
-    const fetchCompetitions = async () => {
-      try {
-        const response = await axios.get('/api/competitions/');
-        dispatch(setCompetitions(response.data.data));
-        setPagination(response.data.links);
-        console.log('pages');
-        console.log(pagination);
-      } catch (error) {
-        console.error('Помилка при отриманні змагань:', error);
-      }
-    };
+
 
     fetchCompetitions();
-  
+  }, [dispatch, searchName, page]);
 
-  }, [dispatch]); // Empty dependency array to ensure the effect runs only once on component mount
+  const fetchCompetitions = async () => {
+    try {
+      const response = await axios.get(`/api/competitions?name[eq]=${searchName}&page=${page}`);
+      dispatch(setCompetitions(response.data.data));
+      setLinks(response.data.links);
+    } catch (error) {
+      console.error('Помилка при отриманні змагань:', error);
+    }
+  };
 
   const handleAddCompetition = async () => {
     try {
       const response = await axios.post('http://localhost:8000/api/competitions/', 
         { 
           name: newCompetitionName,
-
         }
       );
-      // Add the newly created competition to the competitions array
       dispatch(addCompetition(response.data));
       setNewCompetitionName('');
     } catch (error) {
@@ -46,7 +46,6 @@ const CompetitionList = () => {
   const handleDeleteCompetition = async (id) => {
     try {
       await axios.delete(`http://localhost:8000/api/competitions/${id}`);
-      // Remove the deleted competition from the competitions array
       dispatch(deleteCompetition(id));
     } catch (error) {
       console.error('Помилка при видаленні змагання:', error);
@@ -56,6 +55,34 @@ const CompetitionList = () => {
   const handleUpdateClick = (id) => {
     navigate(`/competitions/${id}/update`);
   };
+
+  const fetchNextPrevTasks = (link) => {
+    const url = new URL(link);
+    setPage(url.searchParams.get('page'));
+  }
+
+  const renderPaginationLinks = () => {
+    if (!links || typeof links !== 'object') {
+      return null; // Return null if links is not an object
+    }
+  
+    return (
+      <ul className="pagination">
+        {Object.keys(links).map((linkKey, index) => (
+          <li key={index} className="page-item">
+            <a
+              style={{ cursor: 'pointer' }}
+              className="page-link"
+              onClick={() => fetchNextPrevTasks(links[linkKey])}
+            >
+              {linkKey}
+            </a>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+  
 
   const renderList = competitions.map((competition) => (
     <tr key={competition.id}>
@@ -82,7 +109,7 @@ const CompetitionList = () => {
 
       <div className="mb-3">
         <h3>Додати змагання</h3>
-        <div className="input-group">
+        <div className="input-group mb-3">
           <input
             type="text"
             id="competitionName"
@@ -99,6 +126,15 @@ const CompetitionList = () => {
 
       <div>
         <h3>Список змагань</h3>
+        <div className="input-group mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Пошук за назвою змагання"
+            value={searchName}
+            onChange={(e) => setSearchName(e.target.value)}
+          />
+        </div>
         <table className="table">
           <thead>
             <tr>
@@ -113,6 +149,9 @@ const CompetitionList = () => {
           </thead>
           <tbody>{renderList}</tbody>
         </table>
+        <div>
+          {renderPaginationLinks()}
+        </div>
       </div>
     </div>
   );

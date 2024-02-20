@@ -101,7 +101,6 @@ class CompetitionsController extends Controller
  */
     public function index(Request $request)
     {
-
         $filter = new CompetitionsFilter();
         $queryItems = $filter->transform($request); // ['column', 'operator', 'value']
 
@@ -112,7 +111,9 @@ class CompetitionsController extends Controller
         if($includeSportsmans){
             $competitions=$competitions->with('sportsmans');
         }
-        return new CompetitionCollection($competitions->paginate()->appends($request->query()));
+        return new CompetitionCollection($competitions->paginate()
+        //->appends($request->query())
+        );
     }
 
     /**
