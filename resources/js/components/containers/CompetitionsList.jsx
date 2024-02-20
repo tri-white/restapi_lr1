@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCompetitions, addCompetition, deleteCompetition } from '../redux/actions/competitionActions';
+import Pagination from '../Pagination'; 
 
 const CompetitionList = () => {
   const navigate = useNavigate();
@@ -14,8 +15,6 @@ const CompetitionList = () => {
   const [links, setLinks] = useState([]);
 
   useEffect(() => {
-
-
     fetchCompetitions();
   }, [dispatch, searchName, page]);
 
@@ -61,28 +60,9 @@ const CompetitionList = () => {
     setPage(url.searchParams.get('page'));
   }
 
-  const renderPaginationLinks = () => {
-    if (!links || typeof links !== 'object') {
-      return null; // Return null if links is not an object
-    }
-  
-    return (
-      <ul className="pagination">
-        {Object.keys(links).map((linkKey, index) => (
-          <li key={index} className="page-item">
-            <a
-              style={{ cursor: 'pointer' }}
-              className="page-link"
-              onClick={() => fetchNextPrevTasks(links[linkKey])}
-            >
-              {linkKey}
-            </a>
-          </li>
-        ))}
-      </ul>
-    );
+  const handleSearch = () => {
+    setPage(1); // Set page to 1 when performing a search
   };
-  
 
   const renderList = competitions.map((competition) => (
     <tr key={competition.id}>
@@ -134,6 +114,9 @@ const CompetitionList = () => {
             value={searchName}
             onChange={(e) => setSearchName(e.target.value)}
           />
+          <button className="btn btn-primary" onClick={handleSearch}>
+            Пошук
+          </button>
         </div>
         <table className="table">
           <thead>
@@ -150,8 +133,9 @@ const CompetitionList = () => {
           <tbody>{renderList}</tbody>
         </table>
         <div>
-          {renderPaginationLinks()}
+          <Pagination links={links} fetchNextPrevTasks={fetchNextPrevTasks} />
         </div>
+        <div>Current Page: {page}</div>
       </div>
     </div>
   );

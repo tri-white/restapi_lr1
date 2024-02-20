@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSportsmans, addSportsman, deleteSportsman} from '../redux/actions/sportsmanActions';
+import Pagination from '../Pagination'; 
 
 const EmployeeList = () => {
   const navigate = useNavigate();
@@ -11,24 +12,24 @@ const EmployeeList = () => {
   const dispatch = useDispatch();
   const [pagination, setPagination] = useState([]);
   const [searchName, setSearchName] = useState('');
-
+  const [page, setPage] = useState(1);
+  const [links, setLinks] = useState([]);
 
   useEffect(() => {
     
   const fetchSportsmans = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/sportsmans?name[eq]="+searchName);
+      const response = await axios.get(`/api/sportsmans?name[eq]=${searchName}&page=${page}`);
       dispatch(setSportsmans(response.data.data));
-        setPagination(response.data.links);
-        console.log('pages');
-        console.log(pagination);
+      setLinks(response.data.links);
+
     } catch (err) {
       console.log("Помилка", err);
     }
   };
 
     fetchSportsmans();
-  }, [dispatch, searchName]);
+  }, [dispatch, searchName,page]);
 
   const handleDelete = async (id) => {
     try {
@@ -57,6 +58,10 @@ const EmployeeList = () => {
       console.error('Помилка при додаванні працівника:', error);
     }
   };
+  const fetchNextPrevTasks = (link) => {
+    const url = new URL(link);
+    setPage(url.searchParams.get('page'));
+  }
 
   const renderList = useSelector((state) => state.allSportsmans.SPORTSMANS).map((sportsman) => {
     const { id, name, email, gender, category, sponsor } = sportsman;
@@ -112,6 +117,10 @@ const EmployeeList = () => {
         </thead>
         <tbody>{renderList}</tbody>
       </table>
+      <div>
+          <Pagination links={links} fetchNextPrevTasks={fetchNextPrevTasks} />
+        </div>
+        <div>Current Page: {page}</div>
     </div>
   );
 };

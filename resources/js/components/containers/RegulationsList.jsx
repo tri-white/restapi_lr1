@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRegulations, addRegulation, deleteRegulation } from '../redux/actions/regulationActions';
+import Pagination from '../Pagination'; 
 
 const RegulationsList = () => {
   const navigate = useNavigate();
@@ -11,23 +12,22 @@ const RegulationsList = () => {
   const dispatch = useDispatch();
   const [pagination, setPagination] = useState([]);
   const [searchName, setSearchName] = useState('');
+  const [page, setPage] = useState(1);
+  const [links, setLinks] = useState([]);
 
   useEffect(() => {
-
     const fetchRegulations = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/regulations?name[eq]='+searchName);
+        const response = await axios.get(`/api/regulations?name[eq]=${searchName}&page=${page}`);
         dispatch(setRegulations(response.data.data));
-        setPagination(response.data.links);
-        console.log('pages');
-        console.log(pagination);
+        setLinks(response.data.links);
       } catch (error) {
         console.error('Error fetching regulations:', error);
       }
     };
 
     fetchRegulations();
-  }, [dispatch, searchName]);
+  }, [dispatch, searchName, page]);
 
   const handleAddRegulation = async () => {
     try {
@@ -45,6 +45,11 @@ const RegulationsList = () => {
       console.error('Error adding regulation:', error);
     }
   };
+
+  const fetchNextPrevTasks = (link) => {
+    const url = new URL(link);
+    setPage(url.searchParams.get('page'));
+  }
 
   const handleDeleteRegulation = async (id) => {
     try {
@@ -113,6 +118,10 @@ const RegulationsList = () => {
             {renderList}
           </tbody>
         </table>
+        <div>
+          <Pagination links={links} fetchNextPrevTasks={fetchNextPrevTasks} />
+        </div>
+        <div>Current Page: {page}</div> {/* Display current page */}
       </div>
     </div>
   );
