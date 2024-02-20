@@ -9,7 +9,7 @@ import SportsmansList from './containers/SportsmansList';
 import RegulationsList from './containers/RegulationsList';
 import { Provider } from 'react-redux';
 import store from "./redux/store";
-
+import UpdateCompetitions from './containers/UPDATE/UpdateCompetition';
 const WelcomePage = () => (
     <div className="container mt-5 bg-success text-light p-3 py-5 h-100">
       <h1 className="display-4">Це CRUD</h1>
@@ -24,7 +24,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<WelcomePage />} />
                 <Route path="/competitions" element={<CompetitionsList />} />
-                <Route path="/competitions/:id/update" element={"hi"} />
+                <Route path="/competitions/:id/update" element={<UpdateCompetitions/>} />
                 <Route path="/regulations" element={<RegulationsList />} />
                 <Route path="/regulations/:id/update" element={"hi"} />
                 <Route path="/sportsmans" element={<SportsmansList />} />
