@@ -4,13 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSportsmans, addSportsman, deleteSportsman} from '../redux/actions/sportsmanActions';
 import Pagination from '../Pagination'; 
-
+import AddSportsmanForm from './CREATE/AddSportsmanForm';
+import SearchInput from '../SearchInput';
 const EmployeeList = () => {
   const navigate = useNavigate();
   const sportsmans = useSelector((state) => state.allSportsmans.SPORTSMANS);
-  const [newSportsmanName, setNewSportsmanName] = useState('');
   const dispatch = useDispatch();
-  const [pagination, setPagination] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [page, setPage] = useState(1);
   const [links, setLinks] = useState([]);
@@ -45,19 +44,6 @@ const EmployeeList = () => {
     navigate(`/sportsmans/${id}/update`);
   };
 
-  const handleAdd = async () => {
-    try {
-      const response = await axios.post('http://localhost:8000/api/sportsmans/', {
-        name,
-      });
-
-      dispatch(addSportsman(response.data));
-      setNewSportsmanName('');
-      //navigate('/employees');
-    } catch (error) {
-      console.error('Помилка при додаванні працівника:', error);
-    }
-  };
   const fetchNextPrevTasks = (link) => {
     const url = new URL(link);
     setPage(url.searchParams.get('page'));
@@ -70,7 +56,7 @@ const EmployeeList = () => {
       <tr key={id} className="table-row">
         <td>{id}</td>
         <td>{name}</td>
-        <td>{email}</td>
+        <td>{email ? email : "-"}</td>
         <td>{gender}</td>
         <td>{category}</td>
         <td>{sponsor ? sponsor : "-"}</td>
@@ -89,24 +75,9 @@ const EmployeeList = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-3">Додати спортсмена</h2>
-      <form className="mb-4">
-        
-        <button type="button" className="btn btn-primary" onClick={handleAdd}>
-          Додати спортсмена
-        </button>
-      </form>
+      <AddSportsmanForm />
       <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Пошук за назвою"
-            value={searchName}
-            onChange={(e) => {
-              setSearchName(e.target.value);
-              setPage(1);
-            }}
-          />
+      <SearchInput searchName={searchName} setSearchName={setSearchName} setPage={setPage} />
         </div>
       <h2 className="mb-3">Список спортсменів</h2>
 

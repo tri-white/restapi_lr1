@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCompetitions, addCompetition, deleteCompetition } from '../redux/actions/competitionActions';
 import Pagination from '../Pagination'; 
+import AddCompetitionForm from './CREATE/AddCompetitionForm';
+import SearchInput from '../SearchInput';
 
 const CompetitionList = () => {
   const navigate = useNavigate();
@@ -12,13 +14,7 @@ const CompetitionList = () => {
   const [searchName, setSearchName] = useState('');
   const [page, setPage] = useState(1);
   const [links, setLinks] = useState([]);
-  const [newCompetition, setNewCompetition] = useState({
-    name: '',
-    event_date: '',
-    event_location: '',
-    prize_pool: '',
-    sports_type: '100m sprint'
-  });
+ 
   useEffect(() => {
     fetchCompetitions();
   }, [dispatch, searchName, page]);
@@ -33,28 +29,7 @@ const CompetitionList = () => {
     }
   };
 
-  const handleAddCompetition = async () => {
-    try {
-      console.log(newCompetition);
-      const response = await axios.post('http://localhost:8000/api/competitions/', {
-        name: newCompetition.name,
-        event_date: newCompetition.event_date,
-        event_location: newCompetition.event_location,
-        prize_pool: newCompetition.prize_pool,
-        sports_type: newCompetition.sports_type
-      });
-      dispatch(addCompetition(response.data));
-      setNewCompetition({
-        name: '',
-        event_date: '',
-        event_location: '',
-        prize_pool: '',
-        sports_type: '100m sprint'
-      });
-    } catch (error) {
-      console.error('Помилка при додаванні змагання:', error);
-    }
-  };
+
   
   
   const handleDeleteCompetition = async (id) => {
@@ -99,77 +74,11 @@ const CompetitionList = () => {
       <h2>Змагання</h2>
 
       <div className="mb-3">
-  <h3>Додати змагання</h3>
-  <div className="input-group mb-3">
-    <input
-      type="text"
-      id="competitionName"
-      className="form-control"
-      placeholder="Назва змагання"
-      value={newCompetition.name}
-      onChange={(e) => setNewCompetition({...newCompetition, name: e.target.value })}
-    />
-    <input
-      type="datetime-local"
-      id="eventDate"
-      className="form-control"
-      placeholder="Дата проведення"
-      value={newCompetition.event_date}
-      onChange={(e) => {
-
-        setNewCompetition({ ...newCompetition, event_date: e.target.value });
-      }}
-      required
-    />
-
-    <input
-      type="text"
-      id="eventLocation"
-      className="form-control"
-      placeholder="Місце проведення"
-      value={newCompetition.event_location}
-      onChange={(e) => setNewCompetition({ ...newCompetition, event_location: e.target.value })}
-      required
-    />
-    <input
-      type="number"
-      id="prizePool"
-      className="form-control"
-      placeholder="Призовий фонд ($)"
-      value={newCompetition.prize_pool}
-      onChange={(e) => setNewCompetition({ ...newCompetition, prize_pool: e.target.value })}
-      required
-    />
-    <select
-      className="form-select"
-      id="sportsType"
-      value={newCompetition.sports_type}
-      onChange={(e) => setNewCompetition({ ...newCompetition, sports_type: e.target.value })}
-      required
-    >
-      <option value="100m sprint">100m sprint</option>
-      <option value="3km run">3km run</option>
-      <option value="spear throwing">spear throwing</option>
-      <option value="football">football</option>
-      <option value="tennis">tennis</option>
-    </select>
-    <button className="btn btn-primary" onClick={handleAddCompetition}>
-      Додати змагання
-    </button>
-  </div>
+        <AddCompetitionForm />
 
         <h3>Список змагань</h3>
         <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Пошук за назвою змагання"
-            value={searchName}
-            onChange={(e) => {
-              setSearchName(e.target.value);
-              setPage(1);
-            }}
-          />
+        <SearchInput searchName={searchName} setSearchName={setSearchName} setPage={setPage} />
         </div>
         <table className="table">
           <thead>

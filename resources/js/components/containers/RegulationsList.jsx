@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRegulations, addRegulation, deleteRegulation } from '../redux/actions/regulationActions';
 import Pagination from '../Pagination'; 
+import AddRegulationForm from './CREATE/AddRegulationForm';
+import SearchInput from '../SearchInput';
+
 
 const RegulationsList = () => {
   const navigate = useNavigate();
@@ -29,22 +32,6 @@ const RegulationsList = () => {
     fetchRegulations();
   }, [dispatch, searchName, page]);
 
-  const handleAddRegulation = async () => {
-    try {
-      const response = await axios.post('http://localhost:8000/api/regulations/', {
-        regulation: selectedDepartment,
-        employee: selectedEmployee,
-        expenseType: selectedExpenseType,
-        date,
-        amount,
-      });
-
-      dispatch(addRegulation(response.data));
-      setNewRegulationName('');
-    } catch (error) {
-      console.error('Error adding regulation:', error);
-    }
-  };
 
   const fetchNextPrevTasks = (link) => {
     const url = new URL(link);
@@ -87,24 +74,10 @@ const RegulationsList = () => {
       <h2>Нормативи</h2>
       <div className="expense-document-list">
         <div>
-          <h2>Додати норматив</h2>
-          <form>
-            <button type="button" className="btn btn-primary" onClick={handleAddRegulation}>
-              Додати норматив
-            </button>
-          </form>
+          <AddRegulationForm />
         </div>
         <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Пошук за назвою"
-            value={searchName}
-            onChange={(e) => {
-              setSearchName(e.target.value);
-              setPage(1);
-            }}
-          />
+        <SearchInput searchName={searchName} setSearchName={setSearchName} setPage={setPage} />
         </div>
         <h3>Список документів витрат</h3>
         <table className="table">
