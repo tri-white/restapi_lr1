@@ -164,6 +164,7 @@ class RegulationsController extends Controller
     public function show(Regulations $regulation)
     {
         // $regulation= Regulations::findOrFail($regulation);
+        
         return new RegulationResource($regulation);
     }
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import Link
+
 import { useDispatch, useSelector } from 'react-redux';
 import { setRegulations, addRegulation, deleteRegulation } from '../redux/actions/regulationActions';
 import Pagination from '../Pagination'; 
@@ -72,12 +73,14 @@ const RegulationsList = () => {
       <h2>Нормативи</h2>
       <div className="expense-document-list">
         <div>
-          <AddRegulationForm />
+        <Link to="/regulations/create" className="btn btn-success mb-2">Додати норматив</Link> 
+
         </div>
+        <h3>Список нормативів</h3>
+
         <div className="input-group mb-3">
         <SearchInput searchName={searchName} setSearchName={setSearchName} setPage={setPage} />
         </div>
-        <h3>Список нормативів</h3>
         <table className="table">
           <thead>
             <tr>

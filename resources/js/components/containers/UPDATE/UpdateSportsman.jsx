@@ -47,7 +47,7 @@ const UpdateSportsmanForm = () => {
   
   return (
     <div className="update-sportsman-form container mt-4">
-      <h2>Update Sportsman Information</h2>
+      <h2>Оновлення спорстмена</h2>
       <form>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Name:</label>
@@ -109,10 +109,10 @@ const UpdateSportsmanForm = () => {
           />
         </div>
         <button type="button" className="btn btn-primary me-2" onClick={handleUpdateSportsman}>
-          Update Sportsman
+          Оновити
         </button>
         <button type="button" className="btn btn-secondary" onClick={handleFormClose}>
-          Cancel
+          Відміна
         </button>
       </form>
     </div>

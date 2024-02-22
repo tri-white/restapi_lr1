@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { addRegulation } from '../../redux/actions/regulationActions';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AddRegulationForm = () => {
   const [newRegulation, setNewRegulation] = useState({
@@ -11,6 +12,7 @@ const AddRegulationForm = () => {
     gender: 'male'
   });
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +32,8 @@ const AddRegulationForm = () => {
         minimal_requirements: '',
         gender: 'male'
       });
+      navigate('/regulations');
+
     } catch (error) {
       console.error('Error adding regulation:', error);
     }
@@ -90,7 +94,7 @@ const AddRegulationForm = () => {
           </select>
         </div>
         <button type="button" className="btn btn-primary" onClick={handleAddRegulation}>
-          Додати норматив
+          Додати
         </button>
       </form>
     </div>

@@ -45,7 +45,7 @@ const UpdateRegulationForm = () => {
   
   return (
     <div className="update-regulation-form container mt-4">
-      <h2>Update Regulation Information</h2>
+      <h2>Оновлення нормативу</h2>
       <form>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Name:</label>
@@ -93,10 +93,10 @@ const UpdateRegulationForm = () => {
           />
         </div>
         <button type="button" className="btn btn-primary me-2" onClick={handleUpdateRegulation}>
-          Update Regulation
+          Оновити
         </button>
         <button type="button" className="btn btn-secondary" onClick={handleFormClose}>
-          Cancel
+          Відміна
         </button>
       </form>
     </div>

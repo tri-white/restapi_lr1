@@ -184,6 +184,8 @@ class SportsmansController extends Controller
     public function show(Sportsmans $sportsman)
     {
         // $sportsmans= Sportsmans::findOrFail($sportsmans);
+        $sportsman= Sportsmans::with('regulations')->find($sportsman)->first();
+
         return new SportsmansResource($sportsman);
 
     }

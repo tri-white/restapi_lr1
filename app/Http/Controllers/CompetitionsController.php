@@ -213,6 +213,7 @@ class CompetitionsController extends Controller
  */
     public function show(Competitions $competition)
     {
+        $competition = Competitions::with('sportsmans')->find($competition)->first();
         return new CompetitionResource($competition);
         
     }

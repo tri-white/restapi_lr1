@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import Link
 import { useDispatch, useSelector } from 'react-redux';
 import { setCompetitions, addCompetition, deleteCompetition } from '../redux/actions/competitionActions';
 import Pagination from '../Pagination'; 
@@ -29,9 +29,6 @@ const CompetitionList = () => {
     }
   };
 
-
-  
-  
   const handleDeleteCompetition = async (id) => {
     try {
       await axios.delete(`http://localhost:8000/api/competitions/${id}`);
@@ -43,6 +40,10 @@ const CompetitionList = () => {
 
   const handleUpdateClick = (id) => {
     navigate(`/competitions/${id}/update`);
+  };
+
+  const handleViewDetails = (id) => {
+    navigate(`/competitions/${id}`);
   };
 
   const fetchNextPrevTasks = (link) => {
@@ -62,6 +63,9 @@ const CompetitionList = () => {
         <button className="btn btn-primary btn-sm me-2" onClick={() => handleUpdateClick(competition.id)}>
           Редагувати
         </button>
+        <button className="btn btn-success btn-sm me-2" onClick={() => handleViewDetails(competition.id)}>
+          Деталі
+        </button>
         <button className="btn btn-danger btn-sm" onClick={() => handleDeleteCompetition(competition.id)}>
           Видалити
         </button>
@@ -74,11 +78,11 @@ const CompetitionList = () => {
       <h2>Змагання</h2>
 
       <div className="mb-3">
-        <AddCompetitionForm />
+        <Link to="/competitions/create" className="btn btn-success mb-2">Створити змагання</Link> 
 
         <h3>Список змагань</h3>
         <div className="input-group mb-3">
-        <SearchInput searchName={searchName} setSearchName={setSearchName} setPage={setPage} />
+          <SearchInput searchName={searchName} setSearchName={setSearchName} setPage={setPage} />
         </div>
         <table className="table">
           <thead>

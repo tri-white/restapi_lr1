@@ -110,7 +110,7 @@ const UpdateCompetitions = ({ onClose }) => {
           </select>
         </div>
         <button type="button" className="btn btn-primary me-2" onClick={handleUpdateCompetition}>
-          Оновити змагання
+          Оновити
         </button>
         <button type="button" className="btn btn-secondary" onClick={handleFormClose}>
           Відміна

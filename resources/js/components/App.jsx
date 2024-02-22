@@ -12,7 +12,11 @@ import store from "./redux/store";
 import UpdateCompetitions from './containers/UPDATE/UpdateCompetition';
 import UpdateRegulations from "./containers/UPDATE/UpdateRegulation";
 import UpdateSportsmans from "./containers/UPDATE/UpdateSportsman";
-
+import AddSportsmanForm from './containers/CREATE/AddSportsmanForm';
+import AddRegulationForm from './containers/CREATE/AddRegulationForm';
+import AddCompetitionForm from './containers/CREATE/AddCompetitionForm';
+import CompetitionDetails from './containers/DETAILS/CompetitionDetails';
+import SportsmanDetails from './containers/DETAILS/SportsmanDetails';
 const WelcomePage = () => (
     <div className="container mt-5 bg-success text-light p-3 py-5 h-100">
       <h1 className="display-4">Це CRUD</h1>
@@ -21,7 +25,7 @@ const WelcomePage = () => (
 
 function App() {
     return (
-        <div className="App">
+        <div className="App container">
         <BrowserRouter>
             <Header />
             <Routes>
@@ -32,6 +36,11 @@ function App() {
                 <Route path="/regulations/:id/update" element={<UpdateRegulations />} />
                 <Route path="/sportsmans" element={<SportsmansList />} />
                 <Route path="/sportsmans/:id/update" element={<UpdateSportsmans />} />
+                <Route path="/sportsmans/create" element={<AddSportsmanForm />} />
+                <Route path="/regulations/create" element={<AddRegulationForm />} />
+                <Route path="/competitions/create" element={<AddCompetitionForm />} />
+                <Route path="/competitions/:id" element={<CompetitionDetails/>} />
+                <Route path="/sportsmans/:id" element={<SportsmanDetails/>} />
             </Routes>
             <Footer />
         </BrowserRouter>
