@@ -25,7 +25,14 @@ class ApiFilter{
 
             foreach($operators as $operator){
                 if(isset($query[$operator])){
-                    $eloQuery[] = [$column, $this->operatorMap[$operator], $query[$operator]];
+                    if ($operator === 'contains') {
+                        // For 'contains' operator, we'll use '%value%' to match anywhere in the name
+                        $eloQuery[] = [$column, $this->operatorMap[$operator], '%' . $query[$operator] . '%'];
+                    } else
+                    {
+                        $eloQuery[] = [$column, $this->operatorMap[$operator], $query[$operator]];
+
+                    }
                 }
             }
         }

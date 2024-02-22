@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class CompetitionsFilter extends ApiFilter{
     protected $safeParms = [
-        'name' => ['eq'],
+        'name' => ['eq','contains'],
         'event_date'=> ['eq','gt','lt'],
         'event_location'=>['eq'],
         'prize_pool'=>['eq','gt','lt'],
@@ -20,5 +20,6 @@ class CompetitionsFilter extends ApiFilter{
         'eq' => '=',
         'lt' => '<',
         'gt' => '>',
+        'contains'=>'like',
     ];
 }

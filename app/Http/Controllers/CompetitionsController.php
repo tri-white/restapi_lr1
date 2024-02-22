@@ -112,7 +112,7 @@ class CompetitionsController extends Controller
             $competitions=$competitions->with('sportsmans');
         }
         return new CompetitionCollection($competitions->paginate()
-        //->appends($request->query())
+            ->appends($request->query())
         );
     }
 

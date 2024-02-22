@@ -10,6 +10,9 @@ import RegulationsList from './containers/RegulationsList';
 import { Provider } from 'react-redux';
 import store from "./redux/store";
 import UpdateCompetitions from './containers/UPDATE/UpdateCompetition';
+import UpdateRegulations from "./containers/UPDATE/UpdateRegulation";
+import UpdateSportsmans from "./containers/UPDATE/UpdateSportsman";
+
 const WelcomePage = () => (
     <div className="container mt-5 bg-success text-light p-3 py-5 h-100">
       <h1 className="display-4">Це CRUD</h1>
@@ -26,9 +29,9 @@ function App() {
                 <Route path="/competitions" element={<CompetitionsList />} />
                 <Route path="/competitions/:id/update" element={<UpdateCompetitions/>} />
                 <Route path="/regulations" element={<RegulationsList />} />
-                <Route path="/regulations/:id/update" element={"hi"} />
+                <Route path="/regulations/:id/update" element={<UpdateRegulations />} />
                 <Route path="/sportsmans" element={<SportsmansList />} />
-                <Route path="/sportsmans/:id/update" element={"hi"} />
+                <Route path="/sportsmans/:id/update" element={<UpdateSportsmans />} />
             </Routes>
             <Footer />
         </BrowserRouter>

@@ -21,7 +21,7 @@ const CompetitionList = () => {
 
   const fetchCompetitions = async () => {
     try {
-      const response = await axios.get(`/api/competitions?name[eq]=${searchName}&page=${page}`);
+      const response = await axios.get(`/api/competitions?name[contains]=${searchName}&page=${page}`);
       dispatch(setCompetitions(response.data.data));
       setLinks(response.data.links);
     } catch (error) {

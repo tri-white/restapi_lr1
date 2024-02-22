@@ -2,98 +2,121 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const UpdateEmployee = ({ onClose }) => {
+const UpdateSportsmanForm = () => {
   const { id } = useParams();
-  const [name, setName] = useState('');
-  const [department, setDepartment] = useState('');
-  const [departments, setDepartments] = useState([]); // Added state for departments
+  const [sportsman, setSportsman] = useState({
+    name: '',
+    email: '',
+    gender: '',
+    category: '',
+    sponsor: ''
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchEmployeeDetails = async () => {
+    const fetchSportsmanDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/employees/${id}`);
-        const { name, department } = response.data;
-        setName(name);
-        setDepartment(department);
+        const response = await axios.get(`http://localhost:8000/api/sportsmans/${id}`);
+        setSportsman(response.data.data);
       } catch (error) {
-        console.error('Error fetching employee details:', error);
+        console.error('Error fetching sportsman details:', error);
       }
     };
 
-    const fetchDepartments = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/api/departments/");
-        setDepartments(response.data);
-      } catch (err) {
-        console.log("Error fetching departments:", err);
-      }
-    };
-
-    fetchEmployeeDetails();
-    fetchDepartments(); // Fetch departments on component mount
+    fetchSportsmanDetails();
   }, [id]);
 
-  const handleUpdateEmployee = async () => {
+  const handleUpdateSportsman = async () => {
     try {
-      await axios.put(`http://localhost:3001/api/employees/${id}`, {
-        name,
-        department,
+      await axios.put(`http://localhost:8000/api/sportsmans/${id}`, {
+        name: sportsman.name,
+        email: sportsman.email,
+        gender: sportsman.gender,
+        category: sportsman.category,
+        sponsor: sportsman.sponsor
       });
-
-      navigate('/employees');
+      navigate('/sportsmans');
     } catch (error) {
-      console.error('Error updating employee:', error);
+      console.error('Error updating sportsman:', error);
     }
   };
 
   const handleFormClose = () => {
-    navigate('/employees');
+    navigate('/sportsmans');
   };
-
+  
   return (
-    <div className="update-employee-form container mt-4">
-      <h2 className="mb-3">Оновити інформацію про працівника</h2>
+    <div className="update-sportsman-form container mt-4">
+      <h2>Update Sportsman Information</h2>
       <form>
         <div className="mb-3">
-          <label htmlFor="name" className="form-label">
-            Ім'я:
-          </label>
+          <label htmlFor="name" className="form-label">Name:</label>
           <input
             type="text"
             id="name"
             className="form-control"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={sportsman.name}
+            onChange={(e) => setSportsman({ ...sportsman, name: e.target.value })}
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="department" className="form-label">
-            Департамент:
-          </label>
-          <select
-            id="department"
-            className="form-select"
-            value={department}
-            onChange={(e) => setDepartment(e.target.value)}
-          >
-            <option value="">Виберіть департамент</option>
-            {departments.map((dept) => (
-              <option key={dept._id} value={dept._id}>
-                {dept.name}
-              </option>
-            ))}
-          </select>
+          <label htmlFor="email" className="form-label">Email:</label>
+          <input
+            type="email"
+            id="email"
+            className="form-control"
+            value={sportsman.email}
+            onChange={(e) => setSportsman({ ...sportsman, email: e.target.value })}
+          />
         </div>
-        <button type="button" className="btn btn-primary me-2" onClick={handleUpdateEmployee}>
-          Оновити інформацію
+        <div className="mb-3">
+          <label htmlFor="gender" className="form-label">Gender:</label>
+
+          <select
+          className="form-select"
+          name="gender"
+          value={sportsman.gender}
+          onChange={(e) => setSportsman({ ...sportsman, gender: e.target.value })}
+          required
+        >
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="category" className="form-label">Category:</label>
+             <select
+          className="form-select"
+          name="category"
+          value={sportsman.category}
+          onChange={(e) => setSportsman({ ...sportsman, category: e.target.value })}
+          required
+        >
+          <option value="tennis">Tennis</option>
+          <option value="marathon">Marathon</option>
+          <option value="spear throwing">Spear Throwing</option>
+          <option value="athletics">Athletics</option>
+        </select>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="sponsor" className="form-label">Sponsor:</label>
+          <input
+            type="text"
+            id="sponsor"
+            className="form-control"
+            value={sportsman.sponsor}
+            onChange={(e) => setSportsman({ ...sportsman, sponsor: e.target.value })}
+          />
+        </div>
+        <button type="button" className="btn btn-primary me-2" onClick={handleUpdateSportsman}>
+          Update Sportsman
         </button>
         <button type="button" className="btn btn-secondary" onClick={handleFormClose}>
-          Відміна
+          Cancel
         </button>
       </form>
     </div>
   );
 };
 
-export default UpdateEmployee;
+export default UpdateSportsmanForm;

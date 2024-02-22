@@ -11,9 +11,7 @@ import SearchInput from '../SearchInput';
 const RegulationsList = () => {
   const navigate = useNavigate();
   const regulations = useSelector((state) => state.allRegulations.REGULATIONS);
-  const [newRegulationName, setNewRegulationName] = useState('');
   const dispatch = useDispatch();
-  const [pagination, setPagination] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [page, setPage] = useState(1);
   const [links, setLinks] = useState([]);
@@ -21,7 +19,7 @@ const RegulationsList = () => {
   useEffect(() => {
     const fetchRegulations = async () => {
       try {
-        const response = await axios.get(`/api/regulations?name[eq]=${searchName}&page=${page}`);
+        const response = await axios.get(`/api/regulations?name[contains]=${searchName}&page=${page}`);
         dispatch(setRegulations(response.data.data));
         setLinks(response.data.links);
       } catch (error) {
@@ -79,7 +77,7 @@ const RegulationsList = () => {
         <div className="input-group mb-3">
         <SearchInput searchName={searchName} setSearchName={setSearchName} setPage={setPage} />
         </div>
-        <h3>Список документів витрат</h3>
+        <h3>Список нормативів</h3>
         <table className="table">
           <thead>
             <tr>

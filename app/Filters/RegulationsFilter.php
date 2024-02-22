@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class RegulationsFilter extends ApiFilter{
     protected $safeParms = [
-        'name' => ['eq'],
+        'name' => ['eq','contains'],
         'description'=> ['eq'],
         'minimal_requirements'=>['eq'],
         'gender'=>['eq'],
@@ -20,5 +20,6 @@ class RegulationsFilter extends ApiFilter{
         'eq' => '=',
         'lt' => '<',
         'gt' => '>',
+        'contains'=>'like',
     ];
 }

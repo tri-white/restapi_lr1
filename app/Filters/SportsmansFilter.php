@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class SportsmansFilter extends ApiFilter{
     protected $safeParms = [
-        'name' => ['eq'],
+        'name' => ['eq','contains'],
         'email'=> ['eq'],
         'gender'=>['eq'],
         'category'=>['eq'],
@@ -20,5 +20,6 @@ class SportsmansFilter extends ApiFilter{
         'eq' => '=',
         'lt' => '<',
         'gt' => '>',
+        'contains'=>'like'
     ];
 }

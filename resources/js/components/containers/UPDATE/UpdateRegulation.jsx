@@ -2,173 +2,105 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const UpdateExpenseDocument = ({ onClose }) => {
+const UpdateRegulationForm = () => {
   const { id } = useParams();
-  const [departments, setDepartments] = useState([]);
-  const [employees, setEmployees] = useState([]);
-  const [expenseTypes, setExpenseTypes] = useState([]);
-  const [selectedDepartment, setSelectedDepartment] = useState('');
-  const [selectedEmployee, setSelectedEmployee] = useState('');
-  const [selectedExpenseType, setSelectedExpenseType] = useState('');
-  const [date, setDate] = useState('');
-  const [amount, setAmount] = useState('');
+  const [regulation, setRegulation] = useState({
+    name: '',
+    description: '',
+    gender: '',
+    minimalRequirements: ''
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchExpenseDocumentDetails = async () => {
+    const fetchRegulationDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/expense-documents/${id}`);
-        const { department, employee, expenseType, date, amount } = response.data;
-        setSelectedDepartment(department);
-        setSelectedEmployee(employee);
-        setSelectedExpenseType(expenseType);
-        setDate(date);
-        setAmount(amount);
+        const response = await axios.get(`http://localhost:8000/api/regulations/${id}`);
+        setRegulation(response.data.data);
       } catch (error) {
-        console.error('Error fetching expense document details:', error);
+        console.error('Error fetching regulation details:', error);
       }
     };
 
-    const fetchDepartments = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/api/departments/');
-        setDepartments(response.data);
-      } catch (error) {
-        console.error('Error fetching departments:', error);
-      }
-    };
-
-    const fetchEmployees = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/api/employees/');
-        setEmployees(response.data);
-      } catch (error) {
-        console.error('Error fetching employees:', error);
-      }
-    };
-
-    const fetchExpenseTypes = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/api/expense-types/');
-        setExpenseTypes(response.data);
-      } catch (error) {
-        console.error('Error fetching expense types:', error);
-      }
-    };
-
-    fetchExpenseDocumentDetails();
-    fetchDepartments();
-    fetchEmployees();
-    fetchExpenseTypes();
+    fetchRegulationDetails();
   }, [id]);
 
-  const handleUpdateExpenseDocument = async () => {
+  const handleUpdateRegulation = async () => {
     try {
-      await axios.put(`http://localhost:3001/api/expense-documents/${id}`, {
-        department: selectedDepartment,
-        employee: selectedEmployee,
-        expenseType: selectedExpenseType,
-        date,
-        amount,
+      await axios.put(`http://localhost:8000/api/regulations/${id}`, {
+        name: regulation.name,
+        description: regulation.description,
+        gender: regulation.gender,
+        minimal_requirements: regulation.minimalRequirements
       });
-
-      const response = await axios.get('http://localhost:3001/api/expense-documents/');
-
-      navigate('/expense-documents');
+      navigate('/regulations');
     } catch (error) {
-      console.error('Error updating expense document:', error);
+      console.error('Error updating regulation:', error);
     }
   };
 
   const handleFormClose = () => {
-    navigate('/expense-documents');
+    navigate('/regulations');
   };
-
+  
   return (
-    <div className="container mt-4">
-      <h2>Оновити документ витрат</h2>
+    <div className="update-regulation-form container mt-4">
+      <h2>Update Regulation Information</h2>
       <form>
         <div className="mb-3">
-          <label htmlFor="department" className="form-label">Департамент:</label>
-          <select
-            id="department"
-            className="form-select"
-            value={selectedDepartment}
-            onChange={(e) => setSelectedDepartment(e.target.value)}
-          >
-            <option value="">Виберіть департамент</option>
-            {departments.map((department) => (
-              <option key={department._id} value={department._id}>
-                {department.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="employee" className="form-label">Працівник:</label>
-          <select
-            id="employee"
-            className="form-select"
-            value={selectedEmployee}
-            onChange={(e) => setSelectedEmployee(e.target.value)}
-          >
-            <option value="">Виберіть працівника</option>
-            {employees.map((employee) => (
-              <option key={employee._id} value={employee._id}>
-                {employee.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="expenseType" className="form-label">Тип витрат:</label>
-          <select
-            id="expenseType"
-            className="form-select"
-            value={selectedExpenseType}
-            onChange={(e) => setSelectedExpenseType(e.target.value)}
-          >
-            <option value="">Виберіть тип витрат</option>
-            {expenseTypes.map((expenseType) => (
-              <option key={expenseType._id} value={expenseType._id}>
-                {expenseType.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="date" className="form-label">Дата:</label>
-          <input
-            type="date"
-            id="date"
-            className="form-control"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            pattern="\d{2}/\d{2}/\d{4}"
-            placeholder="MM/dd/YYYY"
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="amount" className="form-label">Сума:</label>
+          <label htmlFor="name" className="form-label">Name:</label>
           <input
             type="text"
-            id="amount"
+            id="name"
             className="form-control"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value.replace(/\D/, ''))}
-            inputMode="numeric"
-            pattern="[0-9]*"
+            value={regulation.name}
+            onChange={(e) => setRegulation({ ...regulation, name: e.target.value })}
           />
         </div>
-        <button type="button" className="btn btn-primary" onClick={handleUpdateExpenseDocument}>
-          Оновити документ витрат
+        <div className="mb-3">
+          <label htmlFor="description" className="form-label">Description:</label>
+          <input
+            type="text"
+            id="description"
+            className="form-control"
+            value={regulation.description}
+            onChange={(e) => setRegulation({ ...regulation, description: e.target.value })}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="gender" className="form-label">Gender:</label>
+            <select
+            id="gender"
+            name="gender"
+            className="form-select"
+            value={regulation.gender}
+            onChange={(e) => setRegulation({ ...regulation, gender: e.target.value })}
+            required
+          >
+            <option value="male">Чоловіча</option>
+            <option value="female">Жіноча</option>
+            <option value="unisex">Унісекс</option>
+          </select>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="minimalRequirements" className="form-label">Minimal Requirements:</label>
+          <input
+            type="text"
+            id="minimalRequirements"
+            className="form-control"
+            value={regulation.minimalRequirements}
+            onChange={(e) => setRegulation({ ...regulation, minimalRequirements: e.target.value })}
+          />
+        </div>
+        <button type="button" className="btn btn-primary me-2" onClick={handleUpdateRegulation}>
+          Update Regulation
         </button>
-        <button type="button" className="btn btn-secondary ms-2" onClick={handleFormClose}>
-          Скасувати
+        <button type="button" className="btn btn-secondary" onClick={handleFormClose}>
+          Cancel
         </button>
       </form>
     </div>
   );
 };
 
-export default UpdateExpenseDocument;
+export default UpdateRegulationForm;

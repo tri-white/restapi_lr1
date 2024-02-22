@@ -18,7 +18,7 @@ const EmployeeList = () => {
     
   const fetchSportsmans = async () => {
     try {
-      const response = await axios.get(`/api/sportsmans?name[eq]=${searchName}&page=${page}`);
+      const response = await axios.get(`/api/sportsmans?name[contains]=${searchName}&page=${page}`);
       dispatch(setSportsmans(response.data.data));
       setLinks(response.data.links);
 
