@@ -107,7 +107,7 @@ const SportsmanList = () => {
       <div>
         <Pagination links={links} fetchNextPrevTasks={fetchNextPrevTasks} />
       </div>
-      <div>Current Page: {page}</div>
+      <div>Поточна сторінка: {page}</div>
     </div>
   );
 };

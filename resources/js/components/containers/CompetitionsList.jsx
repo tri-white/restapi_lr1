@@ -101,7 +101,7 @@ const CompetitionList = () => {
         <div>
           <Pagination links={links} fetchNextPrevTasks={fetchNextPrevTasks} />
         </div>
-        <div>Current Page: {page}</div>
+        <div>Поточна сторінка: {page}</div>
       </div>
     </div>
   );

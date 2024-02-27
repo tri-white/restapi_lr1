@@ -89,6 +89,7 @@ const RegulationsList = () => {
               <th>Опис</th>
               <th>Стать</th>
               <th>Вимоги</th>
+              <th>Дії</th>
             </tr>
           </thead>
           <tbody>
@@ -98,7 +99,7 @@ const RegulationsList = () => {
         <div>
           <Pagination links={links} fetchNextPrevTasks={fetchNextPrevTasks} />
         </div>
-        <div>Current Page: {page}</div> {/* Display current page */}
+        <div>Поточна сторінка: {page}</div>
       </div>
     </div>
   );
